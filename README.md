@@ -1,3 +1,3 @@
 # ChromaCrew
 
-Daniel Youssef
+Daniel Y.
