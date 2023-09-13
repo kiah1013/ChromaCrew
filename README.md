@@ -1,3 +1,6 @@
 # ChromaCrew
-Kiah Epperson 1
-2
+
+Kiah Epperson
+Daniel Youssef
+Lexi Lashbrook
+
