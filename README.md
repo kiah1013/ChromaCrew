@@ -1,1 +1,2 @@
 # ChromaCrew
+Lexi Lashbrook
