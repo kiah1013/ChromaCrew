@@ -4,14 +4,16 @@
 //
 //  Created by Daniel Youssef on 9/26/23.
 //
+//
 
 import SwiftUI
 
 struct HomepageView: View {
-    var picturesArray = ["CC_img01", "CC_img02", "CC_img03", "CC_img04", "CC_img05"]
-    
     @State private var selectedPicture = ""
-    @State var pictureTapped = false
+    @State private var selectedAnimalFilters: [String] = []
+    
+    // Flatmap flattens an array of arrays into a single array, $0 means no transformations
+    var picturesArray = AnimalImages.animalDictionary.values.flatMap { $0 }
     
     var body: some View {
         let columnLayout = Array(repeating: GridItem(), count: 2)
@@ -30,8 +32,11 @@ struct HomepageView: View {
                 Divider()
                 
                 ScrollView {
+                    Spacer()
+                    Spacer()
+                    FilterButtonsView(selectedAnimalFilters: $selectedAnimalFilters) // Step 2
                     LazyVGrid(columns: columnLayout) {
-                        ForEach(picturesArray, id: \.self) { picture in
+                        ForEach(filteredPicturesArray, id: \.self) { picture in // Step 4
                             VStack {
                                 Image(picture)
                                     .resizable()
@@ -40,25 +45,38 @@ struct HomepageView: View {
                                     .clipped() // Keeps pictures within the border
                                     .padding()
                                     .onTapGesture {
-                                        pictureTapped.toggle()
-                                        selectedPicture = picture
+                                        selectedPicture = picture // Updated here
                                     }
                             }
                         }
-                    
-                            NavigationLink("", destination: ColoringPageView(selectedPicture: $selectedPicture), isActive: $pictureTapped)
-                        
+                        // Switches to ColoringPageView when picture is tapped
+                        NavigationLink("", destination: ColoringPageView(selectedPicture: $selectedPicture), isActive: Binding(
+                            get: { selectedPicture != "" },
+                            set: { if !$0 { selectedPicture = "" } }
+                        ))
                     }
                 }
             }
         }
     }
+    
+    // Filters array based on the selected images
+    var filteredPicturesArray: [String] {
+        if selectedAnimalFilters.isEmpty {
+            return picturesArray
+        } else {
+            return picturesArray.filter { animalImage in
+                let animalCategory = AnimalImages.animalDictionary.first { _, images in
+                    images.contains(animalImage)
+                }?.key
+                return selectedAnimalFilters.contains(animalCategory ?? "")
+            }
+        }
+    }
 }
-
 
 struct HomepageView_Previews: PreviewProvider {
     static var previews: some View {
         HomepageView()
     }
 }
-
