@@ -80,22 +80,10 @@ struct ToolsAndCanvasView: View {
                             })
                         
                     )
-                    .offset(offset)
-                    .simultaneousGesture(DragGesture().onChanged { value in
-                                withAnimation(.spring()){
-                                    if isPanning == true {
-                                        offset = value.translation
-                                    }
-                                }
-                    })
-                    .scaleEffect(scale)
-                    .gesture( MagnificationGesture()
-                        .onChanged { value in
-                            let newScale = scale * value.magnitude
-                            scale = min(max(newScale, minScale), maxScale)
-                        }
-                    )
-                    Spacer()
+                    // for moving the canvas
+                    
+                    // for zooming the canvas
+                    
                 
                 // -----------------top/bottom tool display--------------------
                 ZStack {
@@ -120,11 +108,7 @@ struct ToolsAndCanvasView: View {
                             toolSymbol(tool: .pencil, imageName: "pencil")
                             toolSymbol(tool: .paintbrush, imageName: "paintbrush.fill")
                             // eraser tool
-//                            Button { drawingTool = .eraser } label: {
-//                                Image(systemName: "eraser.fill")
-//                                    .font(.title)
-//                                    .foregroundColor(drawingTool == .eraser ? .white : .gray)
-//                                }
+                            
                             Spacer()
                             
                             clearButton().padding(5)
