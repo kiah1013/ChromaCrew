@@ -49,6 +49,10 @@ struct ToolsAndCanvasView: View {
                                 ctx.stroke(path, with: .color(line.color),
                                            style: StrokeStyle(lineWidth: line.lineWidth, lineCap: lineCapIs(tool: line.tool), lineJoin: .round))
                                 // if picked tool is eraser
+                            }else if line.tool == .eraser{
+                                var path = Path()
+                                path.addLines(line.points)
+                                ctx.stroke(path, with: .color(.white),style: StrokeStyle(lineWidth: line.lineWidth, lineCap: lineCapIs(tool: line.tool), lineJoin: .round))
                             }
                         }
                     }
@@ -80,6 +84,7 @@ struct ToolsAndCanvasView: View {
                             })
                         
                     )
+                    // for moving the canvas
                     .offset(offset)
                     .simultaneousGesture(DragGesture().onChanged { value in
                                 withAnimation(.spring()){
@@ -88,6 +93,7 @@ struct ToolsAndCanvasView: View {
                                     }
                                 }
                     })
+                    // for zooming the canvas
                     .scaleEffect(scale)
                     .gesture( MagnificationGesture()
                         .onChanged { value in
@@ -95,7 +101,7 @@ struct ToolsAndCanvasView: View {
                             scale = min(max(newScale, minScale), maxScale)
                         }
                     )
-                    Spacer()
+                    
                 
                 // -----------------top/bottom tool display--------------------
                 ZStack {
@@ -120,11 +126,13 @@ struct ToolsAndCanvasView: View {
                             toolSymbol(tool: .pencil, imageName: "pencil")
                             toolSymbol(tool: .paintbrush, imageName: "paintbrush.fill")
                             // eraser tool
-//                            Button { drawingTool = .eraser } label: {
-//                                Image(systemName: "eraser.fill")
-//                                    .font(.title)
-//                                    .foregroundColor(drawingTool == .eraser ? .white : .gray)
-//                                }
+                            Button { drawingTool = .eraser } label: {
+                                Image(systemName: "eraser.fill")
+                                    .font(.title)
+                                    .foregroundColor(drawingTool == .eraser ? .white: .gray)
+                            }
+
+                            
                             Spacer()
                             
                             clearButton().padding(5)
