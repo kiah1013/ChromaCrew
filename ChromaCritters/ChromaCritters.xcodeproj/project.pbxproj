@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		305491C82AD8ECE800A8EECB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305491C72AD8ECE800A8EECB /* ContentView.swift */; };
 		30E20C772AD8E07E008740EF /* ChromaCrittersApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E20C762AD8E07E008740EF /* ChromaCrittersApp.swift */; };
 		30E20C7B2AD8E081008740EF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30E20C7A2AD8E081008740EF /* Assets.xcassets */; };
 		30E20C7E2AD8E081008740EF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30E20C7D2AD8E081008740EF /* Preview Assets.xcassets */; };
 		30E20C8D2AD8E0EA008740EF /* PencilCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E20C842AD8E0E8008740EF /* PencilCase.swift */; };
-		30E20C8E2AD8E0EA008740EF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E20C852AD8E0E8008740EF /* ContentView.swift */; };
 		30E20C8F2AD8E0EA008740EF /* FilterButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E20C862AD8E0E8008740EF /* FilterButtonsView.swift */; };
 		30E20C902AD8E0EA008740EF /* AnimalImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E20C872AD8E0E9008740EF /* AnimalImages.swift */; };
 		30E20C912AD8E0EA008740EF /* PaintbrushCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E20C882AD8E0E9008740EF /* PaintbrushCase.swift */; };
@@ -22,12 +22,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		305491C72AD8ECE800A8EECB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		30E20C732AD8E07E008740EF /* ChromaCritters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChromaCritters.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30E20C762AD8E07E008740EF /* ChromaCrittersApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChromaCrittersApp.swift; sourceTree = "<group>"; };
 		30E20C7A2AD8E081008740EF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		30E20C7D2AD8E081008740EF /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		30E20C842AD8E0E8008740EF /* PencilCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PencilCase.swift; sourceTree = "<group>"; };
-		30E20C852AD8E0E8008740EF /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContentView.swift; path = ../../../Demo1/Demo1/ContentView.swift; sourceTree = "<group>"; };
 		30E20C862AD8E0E8008740EF /* FilterButtonsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterButtonsView.swift; sourceTree = "<group>"; };
 		30E20C872AD8E0E9008740EF /* AnimalImages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimalImages.swift; sourceTree = "<group>"; };
 		30E20C882AD8E0E9008740EF /* PaintbrushCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaintbrushCase.swift; sourceTree = "<group>"; };
@@ -68,15 +68,15 @@
 			isa = PBXGroup;
 			children = (
 				30E20C762AD8E07E008740EF /* ChromaCrittersApp.swift */,
-				30E20C872AD8E0E9008740EF /* AnimalImages.swift */,
-				30E20C8C2AD8E0EA008740EF /* ColoringPageView.swift */,
-				30E20C852AD8E0E8008740EF /* ContentView.swift */,
-				30E20C862AD8E0E8008740EF /* FilterButtonsView.swift */,
+				305491C72AD8ECE800A8EECB /* ContentView.swift */,
 				30E20C8B2AD8E0E9008740EF /* HomepageView.swift */,
+				30E20C8C2AD8E0EA008740EF /* ColoringPageView.swift */,
+				30E20C862AD8E0E8008740EF /* FilterButtonsView.swift */,
 				30E20C8A2AD8E0E9008740EF /* Line.swift */,
 				30E20C882AD8E0E9008740EF /* PaintbrushCase.swift */,
 				30E20C842AD8E0E8008740EF /* PencilCase.swift */,
 				30E20C892AD8E0E9008740EF /* ToolsAndCanvasView.swift */,
+				30E20C872AD8E0E9008740EF /* AnimalImages.swift */,
 				30E20C7A2AD8E081008740EF /* Assets.xcassets */,
 				30E20C7C2AD8E081008740EF /* Preview Content */,
 			);
@@ -165,9 +165,9 @@
 				30E20C912AD8E0EA008740EF /* PaintbrushCase.swift in Sources */,
 				30E20C942AD8E0EA008740EF /* HomepageView.swift in Sources */,
 				30E20C8D2AD8E0EA008740EF /* PencilCase.swift in Sources */,
-				30E20C8E2AD8E0EA008740EF /* ContentView.swift in Sources */,
 				30E20C902AD8E0EA008740EF /* AnimalImages.swift in Sources */,
 				30E20C8F2AD8E0EA008740EF /* FilterButtonsView.swift in Sources */,
+				305491C82AD8ECE800A8EECB /* ContentView.swift in Sources */,
 				30E20C932AD8E0EA008740EF /* Line.swift in Sources */,
 				30E20C922AD8E0EA008740EF /* ToolsAndCanvasView.swift in Sources */,
 				30E20C772AD8E07E008740EF /* ChromaCrittersApp.swift in Sources */,
