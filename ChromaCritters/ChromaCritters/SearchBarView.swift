@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SearchBarView: View {
     @Binding var searchedAnimal: String
+    @Binding var selectedFilters: [String]
     
     var body: some View {
         HStack {
@@ -40,6 +41,12 @@ struct SearchBarView: View {
                 .shadow(radius: 10)
         }
         .padding()
+        // Removes the selected filters if user searches
+        .onChange(of: searchedAnimal) { newSearch, _ in
+            if !newSearch.isEmpty {
+                selectedFilters.removeAll()
+            }
+        }
     }
 }
 
@@ -47,6 +54,6 @@ struct SearchBar_Previews: PreviewProvider {
     @State static var searchedAnimal: String = ""
     
     static var previews: some View {
-        SearchBarView(searchedAnimal: $searchedAnimal)
+        SearchBarView(searchedAnimal: $searchedAnimal, selectedFilters: .constant([]))
     }
 }

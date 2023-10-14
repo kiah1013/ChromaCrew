@@ -28,7 +28,7 @@ struct HomepageView: View {
                         .fontWeight(.bold)
                         .padding()
                     Spacer()
-                    SearchBarView(searchedAnimal: $searchedAnimal)
+                    SearchBarView(searchedAnimal: $searchedAnimal, selectedFilters: $selectedAnimalFilters)
                 }
                 
                 Divider()
@@ -36,7 +36,7 @@ struct HomepageView: View {
                 ScrollView {
                     Spacer()
                     Spacer()
-                    FilterButtonsView(selectedAnimalFilters: $selectedAnimalFilters) // Step 2
+                    FilterButtonsView(selectedAnimalFilters: $selectedAnimalFilters)
                     LazyVGrid(columns: columnLayout) {
                         ForEach(filteredPicturesArray, id: \.self) { picture in
                             if searchedAnimal.isEmpty || picture.lowercased().contains(searchedAnimal.lowercased()) {
