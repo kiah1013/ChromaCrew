@@ -19,6 +19,7 @@
 		30E20C932AD8E0EA008740EF /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E20C8A2AD8E0E9008740EF /* Line.swift */; };
 		30E20C942AD8E0EA008740EF /* HomepageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E20C8B2AD8E0E9008740EF /* HomepageView.swift */; };
 		30E20C952AD8E0EA008740EF /* ColoringPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E20C8C2AD8E0EA008740EF /* ColoringPageView.swift */; };
+		C11DC09D2ADDDD4500F50E88 /* SavingDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11DC09C2ADDDD4500F50E88 /* SavingDocument.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		30E20C8A2AD8E0E9008740EF /* Line.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
 		30E20C8B2AD8E0E9008740EF /* HomepageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomepageView.swift; sourceTree = "<group>"; };
 		30E20C8C2AD8E0EA008740EF /* ColoringPageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColoringPageView.swift; sourceTree = "<group>"; };
+		C11DC09C2ADDDD4500F50E88 /* SavingDocument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavingDocument.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,10 +74,11 @@
 				30E20C8B2AD8E0E9008740EF /* HomepageView.swift */,
 				30E20C8C2AD8E0EA008740EF /* ColoringPageView.swift */,
 				30E20C862AD8E0E8008740EF /* FilterButtonsView.swift */,
+				30E20C892AD8E0E9008740EF /* ToolsAndCanvasView.swift */,
 				30E20C8A2AD8E0E9008740EF /* Line.swift */,
 				30E20C882AD8E0E9008740EF /* PaintbrushCase.swift */,
 				30E20C842AD8E0E8008740EF /* PencilCase.swift */,
-				30E20C892AD8E0E9008740EF /* ToolsAndCanvasView.swift */,
+				C11DC09C2ADDDD4500F50E88 /* SavingDocument.swift */,
 				30E20C872AD8E0E9008740EF /* AnimalImages.swift */,
 				30E20C7A2AD8E081008740EF /* Assets.xcassets */,
 				30E20C7C2AD8E081008740EF /* Preview Content */,
@@ -166,6 +169,7 @@
 				30E20C942AD8E0EA008740EF /* HomepageView.swift in Sources */,
 				30E20C8D2AD8E0EA008740EF /* PencilCase.swift in Sources */,
 				30E20C902AD8E0EA008740EF /* AnimalImages.swift in Sources */,
+				C11DC09D2ADDDD4500F50E88 /* SavingDocument.swift in Sources */,
 				30E20C8F2AD8E0EA008740EF /* FilterButtonsView.swift in Sources */,
 				305491C82AD8ECE800A8EECB /* ContentView.swift in Sources */,
 				30E20C932AD8E0EA008740EF /* Line.swift in Sources */,

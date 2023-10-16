@@ -9,16 +9,18 @@ import SwiftUI
 
 struct ToolsAndCanvasView: View {
         // variables for zooming in/out
-    @State  var offset: CGSize = CGSize(width: 0, height: -60)
+        @State  var offset: CGSize = CGSize(width: 0, height: -60)
         @State private var scale: CGFloat = 1.0
         let minScale: CGFloat = 1.0 // Adjust the minimum scale as needed
         let maxScale: CGFloat = 3.0 // Adjust the maximum scale as needed
         @State var isPanning: Bool = false
         
         // variables for drawing lines
-        @State var lines: [Line] = []
+        //@State var lines: [Line] = []
+        @Environment(\.scenePhase) var scenePhase
+        @StateObject var savingDocument = SavingDocument()
         @State private var deletedLines = [Line]()
-        @State private var selectedColor = Color.blue
+        @State private var selectedColor = Color.yellow
         @State private var selectedLineWidth: CGFloat = 7
         @State private var drawingTool = DrawingTool.pen
         @State private var showConfirmation: Bool = false
@@ -33,7 +35,7 @@ struct ToolsAndCanvasView: View {
                 //--------------------Canvas for drawing------------------------
                 ZStack {
                     Canvas {ctx, size in
-                        for line in lines {
+                        for line in savingDocument.lines {
                             // if picked tool is pencil
                             if line.tool == .pencil {
                                 connectPointsWithPencil(ctx: ctx, line: line)
@@ -49,7 +51,7 @@ struct ToolsAndCanvasView: View {
                                 ctx.stroke(path, with: .color(line.color),
                                            style: StrokeStyle(lineWidth: line.lineWidth, lineCap: lineCapIs(tool: line.tool), lineJoin: .round))
                                 // if picked tool is eraser
-                            }else if line.tool == .eraser{
+                            } else if line.tool == .eraser{
                                 var path = Path()
                                 path.addLines(line.points)
                                 ctx.stroke(path, with: .color(.white),style: StrokeStyle(lineWidth: line.lineWidth, lineCap: lineCapIs(tool: line.tool), lineJoin: .round))
@@ -67,19 +69,19 @@ struct ToolsAndCanvasView: View {
                                     let position = value.location
                                     
                                     if value.translation == .zero {
-                                        lines.append(Line(tool: drawingTool, points: [position], color: selectedColor, lineWidth: selectedLineWidth))
+                                        savingDocument.lines.append(Line(tool: drawingTool, points: [position], color: selectedColor, lineWidth: selectedLineWidth))
                                     } else {
-                                        guard let lastIdx = lines.indices.last else {
+                                        guard let lastIdx = savingDocument.lines.indices.last else {
                                             return
                                         }
                                         
-                                        lines[lastIdx].points.append(position)
+                                        savingDocument.lines[lastIdx].points.append(position)
                                     }
                                 }
                             }).onEnded({value in
                                 // if lines has something
-                                if let last = lines.last?.points, last.isEmpty {
-                                    lines.removeLast()
+                                if let last = savingDocument.lines.last?.points, last.isEmpty {
+                                    savingDocument.lines.removeLast()
                                 }
                             })
                         
@@ -101,6 +103,12 @@ struct ToolsAndCanvasView: View {
                             scale = min(max(newScale, minScale), maxScale)
                         }
                     )
+                    .onChange(of: scenePhase) { oldChange, newValue in
+                        if newValue == .background {
+                            savingDocument.save()
+                        }
+                        
+                    }
                     
                 
                 // -----------------top/bottom tool display--------------------
@@ -171,7 +179,7 @@ struct ToolsAndCanvasView: View {
                     .foregroundColor(.gray)
             }.confirmationDialog(Text("Are you sure you want to delete your progress?"), isPresented: $showConfirmation) {
                 Button("Delete", role: .destructive) {
-                    lines = [Line]()
+                    savingDocument.lines = [Line]()
                     deletedLines = [Line]()
                 }
             }
@@ -181,13 +189,13 @@ struct ToolsAndCanvasView: View {
         func undoButton() -> some View {
             Button {
                 // store last lines removed
-                let last = lines.removeLast()
+                let last = savingDocument.lines.removeLast()
                 deletedLines.append(last)
             } label: {
                 Image(systemName: "arrow.uturn.backward.circle")
                     .font(.title)
                     //.foregroundColor(.gray)
-            }.disabled(lines.count == 0)
+            }.disabled(savingDocument.lines.count == 0)
         }
     
         // redo function
@@ -195,7 +203,7 @@ struct ToolsAndCanvasView: View {
             Button {
                 // append the deleted lines
                 let last = deletedLines.removeLast()
-                lines.append(last)
+                savingDocument.lines.append(last)
             } label: {
                 Image(systemName: "arrow.uturn.forward.circle")
                     .font(.title)
