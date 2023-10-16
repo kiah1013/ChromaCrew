@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct HomepageView: View {
-    @State private var searchedAnimal = ""
     @State private var selectedPicture = ""
     @State private var selectedAnimalFilters: [String] = []
     
@@ -28,7 +27,6 @@ struct HomepageView: View {
                         .fontWeight(.bold)
                         .padding()
                     Spacer()
-                    SearchBarView(searchedAnimal: $searchedAnimal, selectedFilters: $selectedAnimalFilters)
                 }
                 
                 Divider()
@@ -36,21 +34,19 @@ struct HomepageView: View {
                 ScrollView {
                     Spacer()
                     Spacer()
-                    FilterButtonsView(selectedAnimalFilters: $selectedAnimalFilters)
+                    FilterButtonsView(selectedAnimalFilters: $selectedAnimalFilters) // Step 2
                     LazyVGrid(columns: columnLayout) {
-                        ForEach(filteredPicturesArray, id: \.self) { picture in
-                            if searchedAnimal.isEmpty || picture.lowercased().contains(searchedAnimal.lowercased()) {
-                                VStack {
-                                    Image(picture)
-                                        .resizable()
-                                        .scaledToFit()
-                                        .border(Color.black)
-                                        .clipped() // Keeps pictures within the border
-                                        .padding()
-                                        .onTapGesture {
-                                            selectedPicture = picture // Updated here
-                                        }
-                                }
+                        ForEach(filteredPicturesArray, id: \.self) { picture in // Step 4
+                            VStack {
+                                Image(picture)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .border(Color.black)
+                                    .clipped() // Keeps pictures within the border
+                                    .padding()
+                                    .onTapGesture {
+                                        selectedPicture = picture // Updated here
+                                    }
                             }
                         }
                         // Switches to ColoringPageView when picture is tapped

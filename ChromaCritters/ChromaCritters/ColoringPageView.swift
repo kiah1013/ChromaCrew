@@ -13,14 +13,18 @@ struct ColoringPageView: View {
     @Binding var selectedPicture: String
     var body: some View {
         VStack {
+//            Text("Coloring Page")
+//                .font(.largeTitle)
             ZStack {
                 Canvas { ctx, size in
                     
                 }
+                //
                 ToolsAndCanvasView(animal: self.selectedPicture)
                 
             }
         }
+        //.navigationTitle("Coloring Page")
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement:.navigationBarLeading) {

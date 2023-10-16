@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		305491C82AD8ECE800A8EECB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305491C72AD8ECE800A8EECB /* ContentView.swift */; };
-		305491CC2ADA088800A8EECB /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305491CB2ADA088800A8EECB /* SearchBarView.swift */; };
-		305491CF2ADA490D00A8EECB /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305491CE2ADA490C00A8EECB /* UIApplication.swift */; };
 		30E20C772AD8E07E008740EF /* ChromaCrittersApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E20C762AD8E07E008740EF /* ChromaCrittersApp.swift */; };
 		30E20C7B2AD8E081008740EF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30E20C7A2AD8E081008740EF /* Assets.xcassets */; };
 		30E20C7E2AD8E081008740EF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30E20C7D2AD8E081008740EF /* Preview Assets.xcassets */; };
@@ -25,8 +23,6 @@
 
 /* Begin PBXFileReference section */
 		305491C72AD8ECE800A8EECB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		305491CB2ADA088800A8EECB /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
-		305491CE2ADA490C00A8EECB /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		30E20C732AD8E07E008740EF /* ChromaCritters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChromaCritters.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30E20C762AD8E07E008740EF /* ChromaCrittersApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChromaCrittersApp.swift; sourceTree = "<group>"; };
 		30E20C7A2AD8E081008740EF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -52,14 +48,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		305491CD2ADA48DA00A8EECB /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				305491CE2ADA490C00A8EECB /* UIApplication.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
 		30E20C6A2AD8E07E008740EF = {
 			isa = PBXGroup;
 			children = (
@@ -83,14 +71,12 @@
 				305491C72AD8ECE800A8EECB /* ContentView.swift */,
 				30E20C8B2AD8E0E9008740EF /* HomepageView.swift */,
 				30E20C8C2AD8E0EA008740EF /* ColoringPageView.swift */,
-				305491CB2ADA088800A8EECB /* SearchBarView.swift */,
 				30E20C862AD8E0E8008740EF /* FilterButtonsView.swift */,
 				30E20C8A2AD8E0E9008740EF /* Line.swift */,
 				30E20C882AD8E0E9008740EF /* PaintbrushCase.swift */,
 				30E20C842AD8E0E8008740EF /* PencilCase.swift */,
 				30E20C892AD8E0E9008740EF /* ToolsAndCanvasView.swift */,
 				30E20C872AD8E0E9008740EF /* AnimalImages.swift */,
-				305491CD2ADA48DA00A8EECB /* Extensions */,
 				30E20C7A2AD8E081008740EF /* Assets.xcassets */,
 				30E20C7C2AD8E081008740EF /* Preview Content */,
 			);
@@ -175,7 +161,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				305491CF2ADA490D00A8EECB /* UIApplication.swift in Sources */,
 				30E20C952AD8E0EA008740EF /* ColoringPageView.swift in Sources */,
 				30E20C912AD8E0EA008740EF /* PaintbrushCase.swift in Sources */,
 				30E20C942AD8E0EA008740EF /* HomepageView.swift in Sources */,
@@ -183,7 +168,6 @@
 				30E20C902AD8E0EA008740EF /* AnimalImages.swift in Sources */,
 				30E20C8F2AD8E0EA008740EF /* FilterButtonsView.swift in Sources */,
 				305491C82AD8ECE800A8EECB /* ContentView.swift in Sources */,
-				305491CC2ADA088800A8EECB /* SearchBarView.swift in Sources */,
 				30E20C932AD8E0EA008740EF /* Line.swift in Sources */,
 				30E20C922AD8E0EA008740EF /* ToolsAndCanvasView.swift in Sources */,
 				30E20C772AD8E07E008740EF /* ChromaCrittersApp.swift in Sources */,
