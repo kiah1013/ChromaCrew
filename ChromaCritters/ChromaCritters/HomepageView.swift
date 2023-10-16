@@ -32,7 +32,6 @@ struct HomepageView: View {
                 }
                 
                 Divider()
-                
                 ScrollView {
                     Spacer()
                     Spacer()
