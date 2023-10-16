@@ -331,8 +331,8 @@ struct ToolsAndCanvasView: View {
        }
 }
 
-#Preview {
-    ToolsAndCanvasView(animal: "dog1")
-}
+//#Preview {
+ //   ToolsAndCanvasView(animal: "dog1")
+//}
 
 
