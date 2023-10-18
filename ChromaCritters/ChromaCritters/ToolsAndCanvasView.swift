@@ -22,6 +22,9 @@ struct ToolsAndCanvasView: View {
         @State private var selectedLineWidth: CGFloat = 7
         @State private var drawingTool = DrawingTool.pen
         @State private var showConfirmation: Bool = false
+        @State private var isPaintBucketActive = false
+        @State private var paintBucketPoint: CGPoint?
+
         private let pencilCase = PencilCase()
         private let paintBrushCase = PaintbrushCase()
         var lineCap: CGLineCap = .round
@@ -53,6 +56,11 @@ struct ToolsAndCanvasView: View {
                                 var path = Path()
                                 path.addLines(line.points)
                                 ctx.stroke(path, with: .color(.white),style: StrokeStyle(lineWidth: line.lineWidth, lineCap: lineCapIs(tool: line.tool), lineJoin: .round))
+                            }
+                             else if line.tool == .paintBucket {
+                                if isPaintBucketActive, let startPoint = paintBucketPoint {
+                                    performPaintBucketFill(ctx as! CGContext, startPoint: startPoint, with: selectedColor, cgImage: animal as! CGImage)
+                                }
                             }
                         }
                     }
@@ -125,6 +133,7 @@ struct ToolsAndCanvasView: View {
                             toolSymbol(tool: .pen, imageName: "paintbrush.pointed.fill")
                             toolSymbol(tool: .pencil, imageName: "pencil")
                             toolSymbol(tool: .paintbrush, imageName: "paintbrush.fill")
+                            toolSymbol(tool: .paintBucket, imageName: "spigot.fill")
                             // eraser tool
                             Button { drawingTool = .eraser } label: {
                                 Image(systemName: "eraser.fill")
@@ -278,7 +287,56 @@ struct ToolsAndCanvasView: View {
                lastPoint = point
            }
        }
-    
+    private func performPaintBucketFill(_ ctx: CGContext, startPoint: CGPoint, with color: Color, cgImage: CGImage) {
+        let width = cgImage.width
+        let height = cgImage.height
+        
+        // Create an array to keep track of filled pixels
+        var isFilled = [[Bool]](repeating: [Bool](repeating: false, count: width), count: height)
+        
+        // Convert the fill color to a UIColor
+        let fillColor = UIColor(color)
+        
+        // Create a queue for the flood-fill
+        var queue = [(Int, Int)]()
+        
+        queue.append((Int(startPoint.x), Int(startPoint.y)))
+        
+        // Extract the raw pixel data from the CGImage
+        if let data = cgImage.dataProvider?.data, let bytes = CFDataGetBytePtr(data) {
+            let bytesPerPixel = 4
+            _ = bytesPerPixel * width
+            _ = CGColorSpaceCreateDeviceRGB()
+            
+            while !queue.isEmpty {
+                let (x, y) = queue.removeLast()
+                
+                // Check if the pixel has not been filled and is within bounds
+                if x >= 0 && x < width && y >= 0 && y < height && !isFilled[y][x] {
+                    // Check if the pixel color matches the target color
+                    let pixelOffset = (y * width + x) * bytesPerPixel
+                    let red = CGFloat(bytes[pixelOffset]) / 255.0
+                    let green = CGFloat(bytes[pixelOffset + 1]) / 255.0
+                    let blue = CGFloat(bytes[pixelOffset + 2]) / 255.0
+                    
+                    if UIColor(red: red, green: green, blue: blue, alpha: 1.0) == fillColor {
+                        isFilled[y][x] = true
+                        
+                        // Fill the pixel with the new color
+                        ctx.setFillColor(color.cgColor ?? color as! CGColor)
+                        ctx.fill(CGRect(x: CGFloat(x), y: CGFloat(y), width: 1, height: 1))
+                        
+                        // Enqueue neighboring pixels
+                        queue.append((x - 1, y))
+                        queue.append((x + 1, y))
+                        queue.append((x, y - 1))
+                        queue.append((x, y + 1))
+                    }
+                }
+            }
+        }
+    }
+
         // -----------------------pencil effect functions-----------------
         private func pencilLine(
            ctx: GraphicsContext,

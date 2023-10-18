@@ -12,6 +12,7 @@ enum DrawingTool: Codable {
     case pencil
     case paintbrush
     case eraser
+    case paintBucket
 }
 
 struct Line {
