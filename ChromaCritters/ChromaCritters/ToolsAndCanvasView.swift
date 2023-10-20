@@ -107,11 +107,11 @@ struct ToolsAndCanvasView: View {
                         }
                     )
                     // for saving everytime a line is added
-                    .onChange(of: scenePhase) { oldChange, newValue in
-                        if newValue == .background {
-                            savingDocument.save()
-                        }
-                    }
+//                    .onChange(of: scenePhase) { oldChange, newValue in
+//                        if newValue == .background {
+//                            savingDocument.save()
+//                        }
+//                    }
                     
                 // -----------------top/bottom tool display--------------------
                 ZStack {
@@ -162,9 +162,7 @@ struct ToolsAndCanvasView: View {
                                 } else {
                                     Image(systemName: "dot.arrowtriangles.up.right.down.left.circle").foregroundColor(.gray).font(.title)
                                 }
-                            }
-                            // saving image to photos
-                           
+                            }                           
                         }
                     }
                 }

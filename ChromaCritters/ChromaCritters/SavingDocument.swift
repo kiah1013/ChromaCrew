@@ -8,6 +8,7 @@
 import Foundation
 
 class SavingDocument: ObservableObject {
+    
     @Published var lines = [Line]() {
         didSet{
             // save data when lines change
