@@ -9,16 +9,18 @@ import SwiftUI
 
 struct ToolsAndCanvasView: View {
         // variables for zooming in/out
-    @State  var offset: CGSize = CGSize(width: 0, height: -60)
+        @State  var offset: CGSize = CGSize(width: 0, height: -60)
         @State private var scale: CGFloat = 1.0
         let minScale: CGFloat = 1.0 // Adjust the minimum scale as needed
         let maxScale: CGFloat = 3.0 // Adjust the maximum scale as needed
         @State var isPanning: Bool = false
         
         // variables for drawing lines
-        @State var lines: [Line] = []
+        //@State var lines: [Line] = []
+        @Environment(\.scenePhase) var scenePhase
+        @StateObject var savingDocument = SavingDocument()
         @State private var deletedLines = [Line]()
-        @State private var selectedColor = Color.blue
+        @State private var selectedColor = Color.yellow
         @State private var selectedLineWidth: CGFloat = 7
         @State private var drawingTool = DrawingTool.pen
         @State private var showConfirmation: Bool = false
@@ -27,59 +29,62 @@ struct ToolsAndCanvasView: View {
         var lineCap: CGLineCap = .round
         var animal: String
     
+        var canvasForDrawing: some View {
+            ZStack {
+                Canvas {ctx, size in
+                    for line in savingDocument.lines {
+                        // if picked tool is pencil
+                        if line.tool == .pencil {
+                            connectPointsWithPencil(ctx: ctx, line: line)
+                            // if picked tool is paintbrush
+                        } else if line.tool == .paintbrush{
+                            connectPointsWithPaintBrush(ctx: ctx, line: line)
+                            // if picked tool is pen
+                        } else if line.tool == .pen {
+                            var path = Path()
+                            path.addLines(line.points)
+                            
+                            // style of the line strokes
+                            ctx.stroke(path, with: .color(line.color),
+                                       style: StrokeStyle(lineWidth: line.lineWidth, lineCap: lineCapIs(tool: line.tool), lineJoin: .round))
+                            // if picked tool is eraser
+                        } else if line.tool == .eraser{
+                            var path = Path()
+                            path.addLines(line.points)
+                            ctx.stroke(path, with: .color(.white),style: StrokeStyle(lineWidth: line.lineWidth, lineCap: lineCapIs(tool: line.tool), lineJoin: .round))
+                        }
+                    }
+                    
+                } .frame(width:390, height: 390)
+                Image(animal).resizable().scaledToFit().border(.black, width: 5).padding(2)
+            }
+        }
+    
         var body: some View {
             VStack {
                 Spacer()
-                //--------------------Canvas for drawing------------------------
-                ZStack {
-                    Canvas {ctx, size in
-                        for line in lines {
-                            // if picked tool is pencil
-                            if line.tool == .pencil {
-                                connectPointsWithPencil(ctx: ctx, line: line)
-                                // if picked tool is paintbrush
-                            } else if line.tool == .paintbrush{
-                                connectPointsWithPaintBrush(ctx: ctx, line: line)
-                                // if picked tool is pen
-                            } else if line.tool == .pen {
-                                var path = Path()
-                                path.addLines(line.points)
-                                
-                                // style of the line strokes
-                                ctx.stroke(path, with: .color(line.color),
-                                           style: StrokeStyle(lineWidth: line.lineWidth, lineCap: lineCapIs(tool: line.tool), lineJoin: .round))
-                                // if picked tool is eraser
-                            }else if line.tool == .eraser{
-                                var path = Path()
-                                path.addLines(line.points)
-                                ctx.stroke(path, with: .color(.white),style: StrokeStyle(lineWidth: line.lineWidth, lineCap: lineCapIs(tool: line.tool), lineJoin: .round))
-                            }
-                        }
-                    }
-                    .frame(width:390, height: 390)
-                    Image(animal).resizable().scaledToFit().border(.black, width: 5).padding(2)
-                }
-                    // .gesture(DragGesture) actually shows the lines on the canvas and lets you add multiple lines
+                    canvasForDrawing
                     .gesture(
+                        // shows the lines on the canvas and lets you add multiple lines
                         DragGesture(minimumDistance: 0, coordinateSpace: .local)
                             .onChanged({value in
                                 if isPanning == false {
                                     let position = value.location
                                     
                                     if value.translation == .zero {
-                                        lines.append(Line(tool: drawingTool, points: [position], color: selectedColor, lineWidth: selectedLineWidth))
+                                        savingDocument.lines.append(Line(tool: drawingTool, points: [position], color: selectedColor, lineWidth: selectedLineWidth))
                                     } else {
-                                        guard let lastIdx = lines.indices.last else {
+                                        guard let lastIdx = savingDocument.lines.indices.last else {
                                             return
                                         }
                                         
-                                        lines[lastIdx].points.append(position)
+                                        savingDocument.lines[lastIdx].points.append(position)
                                     }
                                 }
                             }).onEnded({value in
                                 // if lines has something
-                                if let last = lines.last?.points, last.isEmpty {
-                                    lines.removeLast()
+                                if let last = savingDocument.lines.last?.points, last.isEmpty {
+                                    savingDocument.lines.removeLast()
                                 }
                             })
                         
@@ -101,8 +106,13 @@ struct ToolsAndCanvasView: View {
                             scale = min(max(newScale, minScale), maxScale)
                         }
                     )
+                    // for saving everytime a line is added
+//                    .onChange(of: scenePhase) { oldChange, newValue in
+//                        if newValue == .background {
+//                            savingDocument.save()
+//                        }
+//                    }
                     
-                
                 // -----------------top/bottom tool display--------------------
                 ZStack {
                     Rectangle()
@@ -166,12 +176,12 @@ struct ToolsAndCanvasView: View {
             Button {
                 showConfirmation = true
             } label: {
-                Image(systemName: "clear.fill")
-                    .font(.largeTitle)
+                Image(systemName: "pencil.tip.crop.circle.badge.minus")
+                    .font(.title)
                     .foregroundColor(.gray)
             }.confirmationDialog(Text("Are you sure you want to delete your progress?"), isPresented: $showConfirmation) {
                 Button("Delete", role: .destructive) {
-                    lines = [Line]()
+                    savingDocument.lines = [Line]()
                     deletedLines = [Line]()
                 }
             }
@@ -181,13 +191,13 @@ struct ToolsAndCanvasView: View {
         func undoButton() -> some View {
             Button {
                 // store last lines removed
-                let last = lines.removeLast()
+                let last = savingDocument.lines.removeLast()
                 deletedLines.append(last)
             } label: {
                 Image(systemName: "arrow.uturn.backward.circle")
                     .font(.title)
                     //.foregroundColor(.gray)
-            }.disabled(lines.count == 0)
+            }.disabled(savingDocument.lines.count == 0)
         }
     
         // redo function
@@ -195,7 +205,7 @@ struct ToolsAndCanvasView: View {
             Button {
                 // append the deleted lines
                 let last = deletedLines.removeLast()
-                lines.append(last)
+                savingDocument.lines.append(last)
             } label: {
                 Image(systemName: "arrow.uturn.forward.circle")
                     .font(.title)
@@ -331,8 +341,7 @@ struct ToolsAndCanvasView: View {
        }
 }
 
-//#Preview {
- //   ToolsAndCanvasView(animal: "dog1")
-//}
-
+#Preview {
+    ToolsAndCanvasView(animal: "dog1")
+}
 

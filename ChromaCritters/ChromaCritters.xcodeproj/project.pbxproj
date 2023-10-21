@@ -22,6 +22,7 @@
 		30E20C942AD8E0EA008740EF /* HomepageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E20C8B2AD8E0E9008740EF /* HomepageView.swift */; };
 		30E20C952AD8E0EA008740EF /* ColoringPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E20C8C2AD8E0EA008740EF /* ColoringPageView.swift */; };
 		6325D0B42AE13A06006E176E /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6325D0B32AE13A06006E176E /* Launch Screen.storyboard */; };
+		C16B32A32AE35D2B0003B380 /* SavingDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = C16B32A22AE35D2B0003B380 /* SavingDocument.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		30E20C8C2AD8E0EA008740EF /* ColoringPageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColoringPageView.swift; sourceTree = "<group>"; };
 		6325D0B32AE13A06006E176E /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		6337E5032AE07F8E0040BE3F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		C16B32A22AE35D2B0003B380 /* SavingDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingDocument.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,11 +91,12 @@
 				30E20C8C2AD8E0EA008740EF /* ColoringPageView.swift */,
 				305491CB2ADA088800A8EECB /* SearchBarView.swift */,
 				30E20C862AD8E0E8008740EF /* FilterButtonsView.swift */,
-				30E20C8A2AD8E0E9008740EF /* Line.swift */,
 				6325D0B32AE13A06006E176E /* Launch Screen.storyboard */,
 				30E20C882AD8E0E9008740EF /* PaintbrushCase.swift */,
 				30E20C842AD8E0E8008740EF /* PencilCase.swift */,
 				30E20C892AD8E0E9008740EF /* ToolsAndCanvasView.swift */,
+				C16B32A22AE35D2B0003B380 /* SavingDocument.swift */,
+				30E20C8A2AD8E0E9008740EF /* Line.swift */,
 				30E20C872AD8E0E9008740EF /* AnimalImages.swift */,
 				305491CD2ADA48DA00A8EECB /* Extensions */,
 				30E20C7A2AD8E081008740EF /* Assets.xcassets */,
@@ -184,6 +187,7 @@
 				305491CF2ADA490D00A8EECB /* UIApplication.swift in Sources */,
 				30E20C952AD8E0EA008740EF /* ColoringPageView.swift in Sources */,
 				30E20C912AD8E0EA008740EF /* PaintbrushCase.swift in Sources */,
+				C16B32A32AE35D2B0003B380 /* SavingDocument.swift in Sources */,
 				30E20C942AD8E0EA008740EF /* HomepageView.swift in Sources */,
 				30E20C8D2AD8E0EA008740EF /* PencilCase.swift in Sources */,
 				30E20C902AD8E0EA008740EF /* AnimalImages.swift in Sources */,
