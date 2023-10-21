@@ -11,15 +11,14 @@ class SavingDocument: ObservableObject {
     
     @Published var lines = [Line]() {
         didSet{
-            // save data when lines change
-            save()
+            // automatically save data when lines change
+            saveColoringPages()
         }
     }
     
-    init() {
-        //load the data
-        if FileManager.default.fileExists(atPath: url.path),
-           let data = try? Data(contentsOf: url) {
+    func loadColoringPages() {
+        if FileManager.default.fileExists(atPath: getColoringPagesURL.path),
+           let data = try? Data(contentsOf: getColoringPagesURL) {
             
             let decoder = JSONDecoder()
             do {
@@ -31,24 +30,23 @@ class SavingDocument: ObservableObject {
         }
     }
     
-    func save() {
+    func saveColoringPages() {
         let encoder = JSONEncoder()
         
         let data = try? encoder.encode(lines)
         
         do {
-            try data?.write(to: url)
+            try data?.write(to: getColoringPagesURL)
         } catch {
             print("error saving \(error)")
         }
     }
     
-    var url: URL {
+    var getColoringPagesURL: URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         let documentsDirectory = paths[0]
         
         // final url
         return documentsDirectory.appendingPathComponent("Document").appendingPathExtension("json")
-        
     }
 }

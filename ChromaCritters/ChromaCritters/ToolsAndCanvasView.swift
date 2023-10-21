@@ -106,12 +106,10 @@ struct ToolsAndCanvasView: View {
                             scale = min(max(newScale, minScale), maxScale)
                         }
                     )
-                    // for saving everytime a line is added
-//                    .onChange(of: scenePhase) { oldChange, newValue in
-//                        if newValue == .background {
-//                            savingDocument.save()
-//                        }
-//                    }
+                    // for loading the coloring pages with the new added lines
+                    .task {
+                        savingDocument.loadColoringPages()
+                    }
                     
                 // -----------------top/bottom tool display--------------------
                 ZStack {
