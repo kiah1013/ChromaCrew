@@ -12,13 +12,13 @@ class SavingDocument: ObservableObject {
     @Published var lines = [Line]() {
         didSet{
             // automatically save data when lines change
-            saveColoringPages()
+            saveLines()
         }
     }
     
-    func loadColoringPages() {
-        if FileManager.default.fileExists(atPath: getColoringPagesURL.path),
-           let data = try? Data(contentsOf: getColoringPagesURL) {
+    func loadLines() {
+        if FileManager.default.fileExists(atPath: linesURL.path),
+           let data = try? Data(contentsOf: linesURL) {
             
             let decoder = JSONDecoder()
             do {
@@ -30,19 +30,19 @@ class SavingDocument: ObservableObject {
         }
     }
     
-    func saveColoringPages() {
+    func saveLines() {
         let encoder = JSONEncoder()
         
         let data = try? encoder.encode(lines)
         
         do {
-            try data?.write(to: getColoringPagesURL)
+            try data?.write(to: linesURL)
         } catch {
             print("error saving \(error)")
         }
     }
     
-    var getColoringPagesURL: URL {
+    var linesURL: URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         let documentsDirectory = paths[0]
         

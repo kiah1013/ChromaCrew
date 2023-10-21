@@ -18,7 +18,6 @@ struct ToolsAndCanvasView: View {
         // variables for drawing lines
         //@State var lines: [Line] = []
         @Environment(\.scenePhase) var scenePhase
-        @StateObject var savingDocument = SavingDocument()
         @State private var deletedLines = [Line]()
         @State private var selectedColor = Color.yellow
         @State private var selectedLineWidth: CGFloat = 7
@@ -27,7 +26,9 @@ struct ToolsAndCanvasView: View {
         private let pencilCase = PencilCase()
         private let paintBrushCase = PaintbrushCase()
         var lineCap: CGLineCap = .round
+    
         var animal: String
+        @StateObject var savingDocument = SavingDocument()
     
         var canvasForDrawing: some View {
             ZStack {
@@ -108,7 +109,7 @@ struct ToolsAndCanvasView: View {
                     )
                     // for loading the coloring pages with the new added lines
                     .task {
-                        savingDocument.loadColoringPages()
+                        savingDocument.loadLines()
                     }
                     
                 // -----------------top/bottom tool display--------------------
@@ -340,6 +341,6 @@ struct ToolsAndCanvasView: View {
 }
 
 #Preview {
-    ToolsAndCanvasView(animal: "dog1")
+    ToolsAndCanvasView(animal: "dog1", savingDocument: SavingDocument())
 }
 

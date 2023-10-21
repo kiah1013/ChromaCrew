@@ -14,11 +14,7 @@ struct ColoringPageView: View {
     var body: some View {
         VStack {
             ZStack {
-                Canvas { ctx, size in
-                    
-                }
-                ToolsAndCanvasView(animal: self.selectedPicture)
-                
+                ToolsAndCanvasView(animal: self.selectedPicture, savingDocument: SavingDocument())
             }
         }
         .navigationBarBackButtonHidden(true)
