@@ -11,6 +11,7 @@ struct ColoringPageView: View {
     // @Binding is used when variables need to be passed between 2 views
     @Environment(\.dismiss) var dismiss
     @Binding var selectedPicture: String
+    
     var body: some View {
         VStack {
             ZStack {

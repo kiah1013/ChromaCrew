@@ -20,6 +20,7 @@ struct ToolsAndCanvasView: View {
         @Environment(\.scenePhase) var scenePhase
         @State private var deletedLines = [Line]()
         @State private var selectedColor = Color.yellow
+        @State private var selectedColorInColorPallete = Color.yellow
         @State private var selectedLineWidth: CGFloat = 7
         @State private var drawingTool = DrawingTool.pen
         @State private var showConfirmation: Bool = false
@@ -29,6 +30,14 @@ struct ToolsAndCanvasView: View {
     
         var animal: String
         @StateObject var savingDocument = SavingDocument()
+    
+        let green = Color(red: 0, green: 1, blue: 0)
+        let blue = Color(red: 0, green: 0.4, blue: 1)
+        let purple = Color(red: 0.5, green: 0, blue: 0.8)
+        let red = Color(red: 1, green: 0, blue: 0.1)
+        let orange = Color(red: 1, green: 0.5, blue: 0)
+        let yellow = Color(red: 1, green: 1, blue: 0)
+        let black = Color(red: 0.1, green: 0, blue: 0)
     
         var canvasForDrawing: some View {
             ZStack {
@@ -148,9 +157,14 @@ struct ToolsAndCanvasView: View {
                         
                         }
                         HStack {
-                            ForEach([Color.green, .blue, .purple, .red, .orange, .yellow, .black], id: \.self) { color in
-                                colorButton(color:color)
-                            }
+                            colorButton(color:green)
+                            colorButton(color:blue)
+                            colorButton(color:purple)
+                            colorButton(color:red)
+                            colorButton(color:orange)
+                            colorButton(color:yellow)
+                            colorButton(color:black)
+                            
                             ColorPicker("Color", selection: $selectedColor).padding(5).font(.largeTitle).labelsHidden()
                         }
                         HStack {

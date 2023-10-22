@@ -11,7 +11,7 @@ class SavingDocument: ObservableObject {
     
     @Published var lines = [Line]() {
         didSet{
-            // automatically save data when lines change
+            // automatically save data when lines are added/changed
             saveLines()
         }
     }

@@ -60,7 +60,7 @@ class PencilCase {
         }
     }
 
-    private func createPencilTips(color: Color, lineWidth: CGFloat) -> Images {
+    private func connectPencilTips(color: Color, lineWidth: CGFloat) -> Images {
         var result = Images()
         result.reserveCapacity(nTipsPerSize)
         for _ in 0..<nTipsPerSize {
@@ -75,12 +75,12 @@ class PencilCase {
             if let existingTips = pencilTips[lineWidth] {
                 result = existingTips[point2TipIndex(point)]
             } else {
-                let tips = createPencilTips(color: color, lineWidth: lineWidth)
+                let tips = connectPencilTips(color: color, lineWidth: lineWidth)
                 colorMap[color]?[lineWidth] = tips
                 result = tips[point2TipIndex(point)]
             }
         } else {
-            let tips = createPencilTips(color: color, lineWidth: lineWidth)
+            let tips = connectPencilTips(color: color, lineWidth: lineWidth)
             colorMap[color] = [lineWidth: tips]
             result = tips[point2TipIndex(point)]
         }
