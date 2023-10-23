@@ -29,25 +29,28 @@ struct ToolsAndCanvasView: View {
         var lineCap: CGLineCap = .round
         var animal: String
     
+        let green = Color(red: 0, green: 1, blue: 0)
+        let blue = Color(red: 0, green: 0.4, blue: 1)
+        let purple = Color(red: 0.5, green: 0, blue: 0.8)
+        let red = Color(red: 1, green: 0, blue: 0.1)
+        let orange = Color(red: 1, green: 0.5, blue: 0)
+        let yellow = Color(red: 1, green: 1, blue: 0)
+        let black = Color(red: 0.1, green: 0, blue: 0)
+    
         var canvasForDrawing: some View {
             ZStack {
                 Canvas {ctx, size in
                     for line in savingDocument.lines {
-                        // if picked tool is pencil
                         if line.tool == .pencil {
                             connectPointsWithPencil(ctx: ctx, line: line)
-                            // if picked tool is paintbrush
                         } else if line.tool == .paintbrush{
                             connectPointsWithPaintBrush(ctx: ctx, line: line)
-                            // if picked tool is pen
                         } else if line.tool == .pen {
                             var path = Path()
                             path.addLines(line.points)
                             
-                            // style of the line strokes
                             ctx.stroke(path, with: .color(line.color),
                                        style: StrokeStyle(lineWidth: line.lineWidth, lineCap: lineCapIs(tool: line.tool), lineJoin: .round))
-                            // if picked tool is eraser
                         } else if line.tool == .eraser{
                             var path = Path()
                             path.addLines(line.points)
@@ -176,9 +179,9 @@ struct ToolsAndCanvasView: View {
                         
                         }
                         HStack {
-                            ForEach([Color.green, .blue, .purple, .red, .orange, .yellow, .black], id: \.self) { color in
-                                colorButton(color:color)
-                            }
+                            ForEach([green, blue, purple, red, orange, yellow, black], id: \.self) { color in
+                                    colorButton(color:color)
+                                }
                             ColorPicker("Color", selection: $selectedColor).padding(5).font(.largeTitle).labelsHidden()
                         }
                         HStack {
@@ -198,7 +201,6 @@ struct ToolsAndCanvasView: View {
         }
     
     // ---------------------------buttons----------------------------------
-        // clear the whole page function
         func clearButton() -> some View {
             Button {
                 showConfirmation = true
@@ -214,7 +216,6 @@ struct ToolsAndCanvasView: View {
             }
         }
     
-        // undo function
         func undoButton() -> some View {
             Button {
                 // store last lines removed
@@ -227,7 +228,6 @@ struct ToolsAndCanvasView: View {
             }.disabled(savingDocument.lines.count == 0)
         }
     
-        // redo function
         func redoButton() -> some View {
             Button {
                 // append the deleted lines
@@ -240,7 +240,6 @@ struct ToolsAndCanvasView: View {
             }.disabled(deletedLines.count == 0)
         }
     
-        // color pallete buttons
         func colorButton(color: Color) -> some View {
              Button {
                  selectedColor = color
@@ -251,7 +250,6 @@ struct ToolsAndCanvasView: View {
              }
          }
     
-        // displaying tool symbol
         private func toolSymbol(tool: DrawingTool, imageName: String) -> some View {
            Button { drawingTool = tool } label: {
                Image(systemName: imageName)
@@ -260,7 +258,6 @@ struct ToolsAndCanvasView: View {
                }
        }
 
-        // determining line cap style
        func lineCapIs(tool: DrawingTool) -> CGLineCap {
            tool == .paintbrush ? .square : .round
        }

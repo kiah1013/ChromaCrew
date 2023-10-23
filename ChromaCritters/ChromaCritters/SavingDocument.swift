@@ -12,12 +12,12 @@ class SavingDocument: ObservableObject {
     @Published var lines = [Line]() {
         didSet{
             // save data when lines change
-            save()
+            saveLines()
         }
     }
     
+    //load the lines/data automatically
     init() {
-        //load the data
         if FileManager.default.fileExists(atPath: url.path),
            let data = try? Data(contentsOf: url) {
             
@@ -31,7 +31,7 @@ class SavingDocument: ObservableObject {
         }
     }
     
-    func save() {
+    func saveLines() {
         let encoder = JSONEncoder()
         
         let data = try? encoder.encode(lines)
