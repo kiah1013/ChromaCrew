@@ -336,12 +336,6 @@ struct ToolsAndCanvasView: View {
                lastPoint = point
            }
        }
-    
-    func returnImage() -> UIImage {
-        let renderer = ImageRenderer(content: canvasForDrawing.frame(width:390, height: 390))
-        let image = renderer.uiImage!
-        return image
-    }
 }
 
 #Preview {
