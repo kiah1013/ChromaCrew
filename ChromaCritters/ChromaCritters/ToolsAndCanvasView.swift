@@ -115,13 +115,29 @@ struct ToolsAndCanvasView: View {
                     
                 // -----------------top/bottom tool display--------------------
                 ZStack {
-                    Rectangle()
+                    Rectangle().fill(LinearGradient(gradient: Gradient(colors:
+                                                                        [Color(red: 254/255, green: 247/255, blue: 158/255),
+                                                                                    Color(red:169/255, green: 255/255, blue: 158/255),
+                                                                                    Color(red: 158/255, green: 249/255, blue: 252/255),
+                                                                                    Color(red: 159/255, green: 158/255, blue: 254/255),
+                                                                                    Color(red: 255/255, green: 155/255, blue: 233/255),
+                                                                                    Color(red: 254/255, green: 195/255, blue:155/255)]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                                     
+                                     
+                                    )
+                    
                         .ignoresSafeArea().offset(y:-700)
                         .frame(width: 395, height: 132)
                         .foregroundColor(Color(hue: 0.0, saturation: 0.0, brightness: 0.75))
                     
                     // bottom tools display
-                    Rectangle()
+                    Rectangle().fill(LinearGradient(gradient: Gradient(colors:
+                                                                        [Color(red: 254/255, green: 247/255, blue: 158/255),
+                                                                         Color(red:169/255, green: 255/255, blue: 158/255),
+                                                                         Color(red: 158/255, green: 249/255, blue: 252/255),
+                                                                         Color(red: 159/255, green: 158/255, blue: 254/255),]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                                    )
+                    
                         .ignoresSafeArea()
                         .frame(width: 395, height: 135)
                         .foregroundColor(Color(hue: 0.0, saturation: 0.0, brightness: 0.75))
@@ -141,6 +157,17 @@ struct ToolsAndCanvasView: View {
                                     .font(.title)
                                     .foregroundColor(drawingTool == .eraser ? .white: .gray)
                             }
+                            // saving image to photos
+                            Button {
+                                let renderer = ImageRenderer(content: canvasForDrawing.frame(width:390, height: 390))
+                                if let image = renderer.uiImage {
+                                    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+                                }
+                                } label: {
+                                    Image(systemName: "square.and.arrow.down.fill")
+                                        .font(.title)
+                                        .foregroundColor(.gray)
+                                }
 
                             
                             Spacer()

@@ -30,6 +30,12 @@ struct HomepageView: View {
                     Spacer()
                     SearchBarView(searchedAnimal: $searchedAnimal, selectedFilters: $selectedAnimalFilters)
                 }
+                .background(LinearGradient(gradient: Gradient(colors: [Color(red: 254/255, green: 247/255, blue: 158/255),
+                                                                       Color(red:169/255, green: 255/255, blue: 158/255),
+                                                                       Color(red: 158/255, green: 249/255, blue: 252/255),
+                                                                       Color(red: 159/255, green: 158/255, blue: 254/255),
+                                                                       Color(red: 255/255, green: 155/255, blue: 233/255),
+                                                                       Color(red: 254/255, green: 195/255, blue: 155/255)]), startPoint: .topLeading, endPoint: .bottomTrailing))
                 
                 Divider()
                 ScrollView {
