@@ -20,7 +20,6 @@ struct ToolsAndCanvasView: View {
         @Environment(\.scenePhase) var scenePhase
         @State private var deletedLines = [Line]()
         @State private var selectedColor = Color.yellow
-        @State private var selectedColorInColorPallete = Color.yellow
         @State private var selectedLineWidth: CGFloat = 7
         @State private var drawingTool = DrawingTool.pen
         @State private var showConfirmation: Bool = false
@@ -43,21 +42,15 @@ struct ToolsAndCanvasView: View {
             ZStack {
                 Canvas {ctx, size in
                     for line in savingDocument.lines {
-                        // if picked tool is pencil
                         if line.tool == .pencil {
                             connectPointsWithPencil(ctx: ctx, line: line)
-                            // if picked tool is paintbrush
                         } else if line.tool == .paintbrush{
                             connectPointsWithPaintBrush(ctx: ctx, line: line)
-                            // if picked tool is pen
                         } else if line.tool == .pen {
                             var path = Path()
                             path.addLines(line.points)
-                            
-                            // style of the line strokes
                             ctx.stroke(path, with: .color(line.color),
                                        style: StrokeStyle(lineWidth: line.lineWidth, lineCap: lineCapIs(tool: line.tool), lineJoin: .round))
-                            // if picked tool is eraser
                         } else if line.tool == .eraser{
                             var path = Path()
                             path.addLines(line.points)
