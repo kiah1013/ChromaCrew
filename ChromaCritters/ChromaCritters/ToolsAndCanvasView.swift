@@ -116,11 +116,12 @@ struct ToolsAndCanvasView: View {
                     
                 // -----------------top/bottom tool display--------------------
                 ZStack {
+                    
                     Rectangle()
                         .ignoresSafeArea().offset(y:-700)
                         .frame(width: 395, height: 132)
                         .foregroundColor(Color(hue: 0.0, saturation: 0.0, brightness: 0.75))
-                    
+                   
                     // bottom tools display
                     Rectangle()
                         .ignoresSafeArea()
@@ -136,27 +137,23 @@ struct ToolsAndCanvasView: View {
                             toolSymbol(tool: .pen, imageName: "paintbrush.pointed.fill")
                             toolSymbol(tool: .pencil, imageName: "pencil")
                             toolSymbol(tool: .paintbrush, imageName: "paintbrush.fill")
-                            // eraser tool
+                            
                             Button { drawingTool = .eraser } label: {
                                 Image(systemName: "eraser.fill")
                                     .font(.title)
                                     .foregroundColor(drawingTool == .eraser ? .white: .gray)
                             }
 
-                            
+                        
                             Spacer()
                             
                             clearButton().padding(5)
                         
                         }
                         HStack {
-                            colorButton(color:green)
-                            colorButton(color:blue)
-                            colorButton(color:purple)
-                            colorButton(color:red)
-                            colorButton(color:orange)
-                            colorButton(color:yellow)
-                            colorButton(color:black)
+                            ForEach([green, blue, purple, red, orange, yellow, black], id: \.self) { color in
+                                colorButton(color:color)
+                            }
                             
                             ColorPicker("Color", selection: $selectedColor).padding(5).font(.largeTitle).labelsHidden()
                         }
@@ -177,7 +174,6 @@ struct ToolsAndCanvasView: View {
         }
     
     // ---------------------------buttons----------------------------------
-        // clear the whole page function
         func clearButton() -> some View {
             Button {
                 showConfirmation = true
@@ -193,7 +189,6 @@ struct ToolsAndCanvasView: View {
             }
         }
     
-        // undo function
         func undoButton() -> some View {
             Button {
                 // store last lines removed
@@ -206,7 +201,6 @@ struct ToolsAndCanvasView: View {
             }.disabled(savingDocument.lines.count == 0)
         }
     
-        // redo function
         func redoButton() -> some View {
             Button {
                 // append the deleted lines
@@ -219,7 +213,6 @@ struct ToolsAndCanvasView: View {
             }.disabled(deletedLines.count == 0)
         }
     
-        // color pallete buttons
         func colorButton(color: Color) -> some View {
              Button {
                  selectedColor = color
@@ -230,7 +223,6 @@ struct ToolsAndCanvasView: View {
              }
          }
     
-        // displaying tool symbol
         private func toolSymbol(tool: DrawingTool, imageName: String) -> some View {
            Button { drawingTool = tool } label: {
                Image(systemName: imageName)
@@ -239,7 +231,6 @@ struct ToolsAndCanvasView: View {
                }
        }
 
-        // determining line cap style
        func lineCapIs(tool: DrawingTool) -> CGLineCap {
            tool == .paintbrush ? .square : .round
        }
@@ -345,9 +336,16 @@ struct ToolsAndCanvasView: View {
                lastPoint = point
            }
        }
+    
+    func returnImage() -> UIImage {
+        let renderer = ImageRenderer(content: canvasForDrawing.frame(width:390, height: 390))
+        let image = renderer.uiImage!
+        return image
+    }
 }
 
 #Preview {
     ToolsAndCanvasView(animal: "dog1", savingDocument: SavingDocument())
 }
+
 
