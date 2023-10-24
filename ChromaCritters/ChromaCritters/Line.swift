@@ -41,7 +41,7 @@ struct Line: Identifiable, Codable {
 }
 
 struct CustomColor: Codable {
-    var green: Double = 1
+    var green: Double = 0.5
     var blue: Double = 0
     var red: Double = 1
     var opacity: Double = 1

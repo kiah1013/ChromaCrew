@@ -18,17 +18,17 @@ struct ToolsAndCanvasView: View {
         // variables for drawing lines
         //@State var lines: [Line] = []
         @Environment(\.scenePhase) var scenePhase
-        @StateObject var savingDocument = SavingDocument()
+        var animal: String
+        @StateObject var savingDocument = SavingDocument(animalPictureName: "dog1")
         @State private var deletedLines = [Line]()
-        @State private var selectedColor = Color.yellow
+        @State private var selectedColor = Color.orange
         @State private var selectedLineWidth: CGFloat = 7
         @State private var drawingTool = DrawingTool.pen
         @State private var showConfirmation: Bool = false
         private let pencilCase = PencilCase()
         private let paintBrushCase = PaintbrushCase()
         var lineCap: CGLineCap = .round
-        var animal: String
-    
+        
         let green = Color(red: 0, green: 1, blue: 0)
         let blue = Color(red: 0, green: 0.4, blue: 1)
         let purple = Color(red: 0.5, green: 0, blue: 0.8)
@@ -36,7 +36,7 @@ struct ToolsAndCanvasView: View {
         let orange = Color(red: 1, green: 0.5, blue: 0)
         let yellow = Color(red: 1, green: 1, blue: 0)
         let black = Color(red: 0.1, green: 0, blue: 0)
-    
+
         var canvasForDrawing: some View {
             ZStack {
                 Canvas {ctx, size in
@@ -166,11 +166,11 @@ struct ToolsAndCanvasView: View {
                                 if let image = renderer.uiImage {
                                     UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
                                 }
-                                } label: {
-                                    Image(systemName: "square.and.arrow.down.fill")
+                            } label: {
+                                Image(systemName: "square.and.arrow.down.fill")
                                         .font(.title)
                                         .foregroundColor(.gray)
-                                }
+                            }
 
                             
                             Spacer()
