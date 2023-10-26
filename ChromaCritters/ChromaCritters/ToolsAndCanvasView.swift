@@ -161,17 +161,17 @@ struct ToolsAndCanvasView: View {
                                     .foregroundColor(drawingTool == .eraser ? .white: .gray)
                             }
                             // saving image to photos
-                            Button {
-                                let renderer = ImageRenderer(content: canvasForDrawing.frame(width:390, height: 390))
-                                if let image = renderer.uiImage {
-                                    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-                                }
-                            } label: {
-                                Image(systemName: "square.and.arrow.down.fill")
-                                        .font(.title)
+                            .toolbar{
+                                Button {
+                                    let renderer = ImageRenderer(content: canvasForDrawing.frame(width:390, height: 390))
+                                    if let image = renderer.uiImage {
+                                        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+                                    }
+                                } label: {
+                                    Image(systemName: "square.and.arrow.down.fill")
                                         .foregroundColor(.gray)
+                                }
                             }
-
                             
                             Spacer()
                             
