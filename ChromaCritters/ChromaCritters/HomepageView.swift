@@ -28,6 +28,14 @@ struct HomepageView: View {
                         .fontWeight(.bold)
                         .padding()
                     Spacer()
+                    NavigationLink(destination: UserProfileView()){
+                        Image(systemName: "person.crop.circle")
+                            .font(.title)
+                            .foregroundColor(.black)
+                            
+                    }
+                    .padding(.leading, -130)
+                    .padding(.top, -60)
                     SearchBarView(searchedAnimal: $searchedAnimal, selectedFilters: $selectedAnimalFilters)
                 }
                 .background(LinearGradient(gradient: Gradient(colors: [Color(red: 254/255, green: 247/255, blue: 158/255),

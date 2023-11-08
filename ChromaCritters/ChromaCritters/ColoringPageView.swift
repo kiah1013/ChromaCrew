@@ -20,11 +20,13 @@ struct ColoringPageView: View {
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement:.navigationBarLeading) {
-                        Button(action: {
-                            dismiss()
-                        }) {
-                            Label("Back", systemImage: "house.fill").foregroundColor(Color.black)
-                        }
+                Button{
+                    dismiss()
+                    
+                }label: {
+                    Image(systemName: "house.fill")
+                        .foregroundColor(.black)
+                }
                     }
                 }
     }
