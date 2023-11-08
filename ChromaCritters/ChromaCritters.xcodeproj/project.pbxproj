@@ -10,6 +10,7 @@
 		305491C82AD8ECE800A8EECB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305491C72AD8ECE800A8EECB /* ContentView.swift */; };
 		305491CC2ADA088800A8EECB /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305491CB2ADA088800A8EECB /* SearchBarView.swift */; };
 		305491CF2ADA490D00A8EECB /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305491CE2ADA490C00A8EECB /* UIApplication.swift */; };
+		30DAA1A02AFB47C0002AD15F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30DAA19F2AFB47C0002AD15F /* GoogleService-Info.plist */; };
 		30E20C772AD8E07E008740EF /* ChromaCrittersApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E20C762AD8E07E008740EF /* ChromaCrittersApp.swift */; };
 		30E20C7B2AD8E081008740EF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30E20C7A2AD8E081008740EF /* Assets.xcassets */; };
 		30E20C7E2AD8E081008740EF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30E20C7D2AD8E081008740EF /* Preview Assets.xcassets */; };
@@ -55,7 +56,6 @@
 		D8D8AC562AF977600000A809 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = D8D8AC552AF977600000A809 /* FirebaseAuth */; };
 		D8D8AC582AF977600000A809 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D8D8AC572AF977600000A809 /* FirebaseFirestore */; };
 		D8D8AC5A2AF977600000A809 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D8D8AC592AF977600000A809 /* FirebaseFirestoreSwift */; };
-		D8D8AC5C2AF98A020000A809 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D8D8AC5B2AF98A020000A809 /* GoogleService-Info.plist */; };
 		D8D8AC5E2AF99CD90000A809 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D8AC5D2AF99CD90000A809 /* RegistrationView.swift */; };
 		D8D8AC602AF9A6EE0000A809 /* EmailSignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D8AC5F2AF9A6EE0000A809 /* EmailSignInView.swift */; };
 /* End PBXBuildFile section */
@@ -64,6 +64,7 @@
 		305491C72AD8ECE800A8EECB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		305491CB2ADA088800A8EECB /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
 		305491CE2ADA490C00A8EECB /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
+		30DAA19F2AFB47C0002AD15F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		30E20C732AD8E07E008740EF /* ChromaCritters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChromaCritters.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30E20C762AD8E07E008740EF /* ChromaCrittersApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChromaCrittersApp.swift; sourceTree = "<group>"; };
 		30E20C7A2AD8E081008740EF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -82,7 +83,6 @@
 		D8872EC42AF462A20084F6FF /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		D89DD4302AF2FFAC00803064 /* ChromaCritters.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChromaCritters.entitlements; sourceTree = "<group>"; };
 		D89DD4312AF4043400803064 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
-		D8D8AC5B2AF98A020000A809 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D8D8AC5D2AF99CD90000A809 /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
 		D8D8AC5F2AF9A6EE0000A809 /* EmailSignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignInView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -156,7 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				D89DD4302AF2FFAC00803064 /* ChromaCritters.entitlements */,
-				D8D8AC5B2AF98A020000A809 /* GoogleService-Info.plist */,
+				30DAA19F2AFB47C0002AD15F /* GoogleService-Info.plist */,
 				6337E5032AE07F8E0040BE3F /* Info.plist */,
 				30E20C762AD8E07E008740EF /* ChromaCrittersApp.swift */,
 				305491C72AD8ECE800A8EECB /* ContentView.swift */,
@@ -284,7 +284,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6325D0B42AE13A06006E176E /* Launch Screen.storyboard in Resources */,
-				D8D8AC5C2AF98A020000A809 /* GoogleService-Info.plist in Resources */,
+				30DAA1A02AFB47C0002AD15F /* GoogleService-Info.plist in Resources */,
 				30E20C7E2AD8E081008740EF /* Preview Assets.xcassets in Resources */,
 				30E20C7B2AD8E081008740EF /* Assets.xcassets in Resources */,
 			);
