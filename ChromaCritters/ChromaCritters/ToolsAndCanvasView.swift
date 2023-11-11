@@ -17,7 +17,7 @@ struct ToolsAndCanvasView: View {
     let minScale: CGFloat = 1.0 // Adjust the minimum scale as needed
     let maxScale: CGFloat = 3.0 // Adjust the maximum scale as needed
     @State var isPanning: Bool = false
-    @State var retrievedImages = [UIImage]()
+
     
     @EnvironmentObject var userAuth: UserAuth
     var snapshotImage: UIImage? {
@@ -246,47 +246,11 @@ struct ToolsAndCanvasView: View {
                     let db = Firestore.firestore()
                     // the content of url is the final url from the cloud firestore database
                     let dbFilePath = "usersStorage/\(userAuth.userId!)/"+filePath
-                    //db.collection("coloredPagesDB").document().setData(["url":dbFilePath])
-                    db.collection("coloredPagesDB").document().setData(["url":dbFilePath]) { error in
-                        if error == nil {
-                            DispatchQueue.main.async {
-                                self.retrievedImages.append(self.snapshotImage!)
-                            }
-                        }
-                    }
+                    db.collection("coloredPagesDB").document().setData(["url":dbFilePath])
                 }
             }
         } else {
             print("Not logged in, cannot upload colored page into database")
-        }
-    }
-    
-    func retrievePhotos() {
-        let db = Firestore.firestore()
-        
-        db.collection("coloredPagesDB").getDocuments { snapshot, error in
-            if error == nil && snapshot != nil {
-                var paths = [String]()
-                
-                for doc in snapshot!.documents {
-                    paths.append(doc["url"] as! String)
-                }
-                
-                for path in paths {
-                    let storageRef = Storage.storage().reference()
-                    let fileRef = storageRef.child(path)
-                    
-                    fileRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
-                        if error == nil && data != nil {
-                            if let image = UIImage(data: data!) {
-                                DispatchQueue.main.async {
-                                    retrievedImages.append(image)
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
     

@@ -5,13 +5,16 @@
 //  Created by Lexi Lashbrook on 11/5/23.
 //
 import SwiftUI
+import Firebase
+import FirebaseStorage
+import FirebaseFirestore
 
 struct UserProfileView: View {
     //modify the gridContent when adding pictures to this page
-    @State private var IsGridEmpty = true
+    @State private var IsGridEmpty = false
     @Environment(\.dismiss) var dismiss
     @State private var selectedPicture = ""
-    @Binding var retrievedImages: [UIImage]
+    @State var retrievedImages = [UIImage]()
     
     // Flatmap flattens an array of arrays into a single array, $0 means no transformations
     var picturesArray = AnimalImages.animalDictionary.values.flatMap { $0 }
@@ -60,16 +63,16 @@ struct UserProfileView: View {
                         LazyVGrid(columns: columnLayout) {
                             VStack {
                                 ForEach(retrievedImages, id: \.self) { image in
-                                Image("dog1")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .border(Color.black)
-                                    .clipped() // Keeps pictures within the border
-                                    .padding()
-                                    .onTapGesture {
-                                        selectedPicture = "dog1"
-                                        
-                                    }
+                                    Image(uiImage: image)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .border(Color.black)
+                                        .clipped() // Keeps pictures within the border
+                                        .padding()
+//                                        .onTapGesture {
+//                                            selectedPicture = "dog1"
+//                                            
+//                                        }
                                 }
                             }
                             
@@ -78,6 +81,37 @@ struct UserProfileView: View {
                                 get: { selectedPicture != "" },
                                 set: { if !$0 { selectedPicture = "" } }
                             ))
+                        }
+                    }
+                }
+                .onAppear {
+                    retrievePhotos()
+                }
+            }
+        }
+    }
+    func retrievePhotos() {
+        let db = Firestore.firestore()
+        
+        db.collection("coloredPagesDB").getDocuments { snapshot, error in
+            if error == nil && snapshot != nil {
+                var paths = [String]()
+                
+                for doc in snapshot!.documents {
+                    paths.append(doc["url"] as! String)
+                }
+                
+                for path in paths {
+                    let storageRef = Storage.storage().reference()
+                    let fileRef = storageRef.child(path)
+                    
+                    fileRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
+                        if error == nil && data != nil {
+                            if let image = UIImage(data: data!) {
+                                DispatchQueue.main.async {
+                                    retrievedImages.append(image)
+                                }
+                            }
                         }
                     }
                 }
@@ -90,10 +124,10 @@ struct UserProfileView: View {
 
 struct UserProfile_Previews: PreviewProvider {
     static var previews: some View {
-        UserProfileView(retrievedImages: .constant([UIImage]()))
+        UserProfileView()
     }
 }
 
 #Preview {
-    UserProfileView(retrievedImages: .constant([UIImage]()))
+    UserProfileView()
 }
