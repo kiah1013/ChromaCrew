@@ -15,6 +15,7 @@ struct UserProfileView: View {
     @Environment(\.dismiss) var dismiss
     @State private var selectedPicture = ""
     @State var retrievedImages = [UIImage]()
+    @EnvironmentObject var userAuth: UserAuth
     
     // Flatmap flattens an array of arrays into a single array, $0 means no transformations
     var picturesArray = AnimalImages.animalDictionary.values.flatMap { $0 }
@@ -61,26 +62,14 @@ struct UserProfileView: View {
                     }
                     else{
                         LazyVGrid(columns: columnLayout) {
-                            VStack {
-                                ForEach(retrievedImages, id: \.self) { image in
-                                    Image(uiImage: image)
-                                        .resizable()
-                                        .scaledToFit()
-                                        .border(Color.black)
-                                        .clipped() // Keeps pictures within the border
-                                        .padding()
-//                                        .onTapGesture {
-//                                            selectedPicture = "dog1"
-//                                            
-//                                        }
-                                }
+                            ForEach(retrievedImages, id: \.self) { image in
+                                Image(uiImage: image)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .border(Color.black)
+                                    .clipped() // Keeps pictures within the border
+                                    .padding()
                             }
-                            
-                            // Switches to ColoringPageView when picture is tapped
-                            NavigationLink("", destination: ColoringPageView(selectedPicture: $selectedPicture), isActive: Binding(
-                                get: { selectedPicture != "" },
-                                set: { if !$0 { selectedPicture = "" } }
-                            ))
                         }
                     }
                 }
@@ -92,35 +81,39 @@ struct UserProfileView: View {
     }
     func retrievePhotos() {
         let db = Firestore.firestore()
+        // Crashes app when using Guest Mode
+        // let userId = userAuth.userId!
         
-        db.collection("coloredPagesDB").getDocuments { snapshot, error in
-            if error == nil && snapshot != nil {
-                var paths = [String]()
-                
-                for doc in snapshot!.documents {
-                    paths.append(doc["url"] as! String)
-                }
-                
-                for path in paths {
-                    let storageRef = Storage.storage().reference()
-                    let fileRef = storageRef.child(path)
+        if let userId = userAuth.userId {
+            db.collection("coloredPagesDB").whereField("url", isGreaterThanOrEqualTo: "usersStorage/\(userId)/").getDocuments { snapshot, error in
+                if error == nil && snapshot != nil {
+                    var paths = [String]()
                     
-                    fileRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
-                        if error == nil && data != nil {
-                            if let image = UIImage(data: data!) {
-                                DispatchQueue.main.async {
-                                    retrievedImages.append(image)
+                    for doc in snapshot!.documents {
+                        paths.append(doc["url"] as! String)
+                    }
+                    
+                    for path in paths {
+                        let storageRef = Storage.storage().reference()
+                        let fileRef = storageRef.child(path)
+                        
+                        fileRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
+                            if error == nil && data != nil {
+                                if let image = UIImage(data: data!) {
+                                    DispatchQueue.main.async {
+                                        retrievedImages.append(image)
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
+        } else {
+            print("Guest Mode")
         }
     }
 }
-
-
 
 struct UserProfile_Previews: PreviewProvider {
     static var previews: some View {
