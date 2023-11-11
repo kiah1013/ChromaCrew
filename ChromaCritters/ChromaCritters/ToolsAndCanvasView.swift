@@ -6,6 +6,9 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseStorage
+import FirebaseFirestore
 
 struct ToolsAndCanvasView: View {
         // variables for zooming in/out
@@ -15,6 +18,13 @@ struct ToolsAndCanvasView: View {
         let maxScale: CGFloat = 3.0 // Adjust the maximum scale as needed
         @State var isPanning: Bool = false
         
+        @EnvironmentObject var userAuth: UserAuth
+        var snapshotImage: UIImage? {
+           let renderer = ImageRenderer(content: canvasForDrawing.frame(width:390, height: 390))
+           let image = renderer.uiImage
+
+           return image
+       }
         // variables for drawing lines
         //@State var lines: [Line] = []
         @Environment(\.scenePhase) var scenePhase
@@ -172,6 +182,13 @@ struct ToolsAndCanvasView: View {
                                         .foregroundColor(.gray)
                                 }
                             }
+                            .toolbar {
+                                Button {
+                                    uploadColoredPageToFirestore()
+                                } label: {
+                                    Text("Upload")
+                                }
+                            }
                             
                             Spacer()
                             
@@ -201,6 +218,41 @@ struct ToolsAndCanvasView: View {
         }
     
     // ---------------------------buttons----------------------------------
+    
+        func uploadColoredPageToFirestore() {
+            if userAuth.isLogged {
+                guard snapshotImage != nil else {
+                    return
+                }
+
+                // Create storage reference
+                let storageRef = Storage.storage().reference()
+                // Turn image into data
+                let imageData = snapshotImage!.jpegData(compressionQuality: 0.8)
+
+                guard imageData != nil else {
+                    return
+                }
+                // Specify the file path and name
+                let filePath = "coloredPagesStorage/\(UUID().uuidString).jpg"
+                let fileRef = storageRef.child("usersStorage").child(userAuth.userId!).child(filePath)
+
+                let uploadTask = fileRef.putData(imageData!, metadata: nil) {
+                    metadata, error in
+
+                    if error == nil && metadata != nil {
+                        // get the filePath from storage and store into database
+                        let db = Firestore.firestore()
+                        // the content of url is the final url from the cloud firestore database
+                        let dbFilePath = "usersStorage/\(userAuth.userId!)/"+filePath
+                        db.collection("coloredPagesDB").document().setData(["url":dbFilePath])
+                    }
+                }
+            } else {
+                print("Not logged in, cannot upload colored page into database")
+            }
+        }
+    
         func clearButton() -> some View {
             Button {
                 showConfirmation = true
