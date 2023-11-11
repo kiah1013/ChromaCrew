@@ -11,6 +11,7 @@ struct UserProfileView: View {
     @State private var IsGridEmpty = true
     @Environment(\.dismiss) var dismiss
     @State private var selectedPicture = ""
+    @Binding var retrievedImages: [UIImage]
     
     // Flatmap flattens an array of arrays into a single array, $0 means no transformations
     var picturesArray = AnimalImages.animalDictionary.values.flatMap { $0 }
@@ -58,6 +59,7 @@ struct UserProfileView: View {
                     else{
                         LazyVGrid(columns: columnLayout) {
                             VStack {
+                                ForEach(retrievedImages, id: \.self) { image in
                                 Image("dog1")
                                     .resizable()
                                     .scaledToFit()
@@ -66,9 +68,9 @@ struct UserProfileView: View {
                                     .padding()
                                     .onTapGesture {
                                         selectedPicture = "dog1"
-                                     
+                                        
                                     }
-                                
+                                }
                             }
                             
                             // Switches to ColoringPageView when picture is tapped
@@ -78,22 +80,20 @@ struct UserProfileView: View {
                             ))
                         }
                     }
-                    
-                    
-                }
                 }
             }
         }
     }
-    
-    
-    
-    struct UserProfile_Previews: PreviewProvider {
-        static var previews: some View {
-            UserProfileView()
-        }
+}
+
+
+
+struct UserProfile_Previews: PreviewProvider {
+    static var previews: some View {
+        UserProfileView(retrievedImages: .constant([UIImage]()))
     }
+}
 
 #Preview {
-    UserProfileView()
+    UserProfileView(retrievedImages: .constant([UIImage]()))
 }
