@@ -58,15 +58,15 @@ struct ToolsAndCanvasView: View {
                         }
                     }
                     
-                } .frame(width:390, height: 390)
-                Image(animal).resizable().scaledToFit().border(.black, width: 5).padding(2)
+                } .frame(width:385, height: 385)
+                Image(animal).resizable().scaledToFit().border(Color("borderColor"), width: 5)
             }
         }
     
         var body: some View {
             VStack {
                 Spacer()
-                    canvasForDrawing
+                    canvasForDrawing.background(Color("customWhite"))
                     .gesture(
                         // shows the lines on the canvas and lets you add multiple lines
                         DragGesture(minimumDistance: 0, coordinateSpace: .local)

@@ -8,7 +8,7 @@ import SwiftUI
 
 struct UserProfileView: View {
     //modify the gridContent when adding pictures to this page
-    @State private var IsGridEmpty = true
+    @State private var IsGridEmpty = false
     @Environment(\.dismiss) var dismiss
     @State private var selectedPicture = ""
     
@@ -22,6 +22,7 @@ struct UserProfileView: View {
             VStack(spacing: 0) {
                 HStack {
                     Text("Profile")
+                        .foregroundColor(Color("customBlack"))
                         .padding(.top)
                         .font(.largeTitle)
                         .fontWeight(.bold)
@@ -58,7 +59,7 @@ struct UserProfileView: View {
                     else{
                         LazyVGrid(columns: columnLayout) {
                             VStack {
-                                Image("dog1")
+                                Image("dog2")
                                     .resizable()
                                     .scaledToFit()
                                     .border(Color.black)

@@ -14,7 +14,7 @@ struct HomepageView: View {
     @State private var selectedAnimalFilters: [String] = []
     
     // Flatmap flattens an array of arrays into a single array, $0 means no transformations
-    var picturesArray = AnimalImages.animalDictionary.values.flatMap { $0 }
+    var picturesArray = AnimalImages.nonTransparentAnimalDictionary.values.flatMap { $0 }
     
     var body: some View {
         let columnLayout = Array(repeating: GridItem(), count: 2)
@@ -24,6 +24,7 @@ struct HomepageView: View {
                 HStack {
                     Text("Library")
                         .padding(.top)
+                        .foregroundColor(Color("customBlack"))
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .padding()
@@ -57,11 +58,13 @@ struct HomepageView: View {
                                     Image(picture)
                                         .resizable()
                                         .scaledToFit()
-                                        .border(Color.black)
+                                        
+                                        .border(Color("borderColor"), width: 2)
                                         .clipped() // Keeps pictures within the border
+                                        .cornerRadius(15)
                                         .padding()
                                         .onTapGesture {
-                                            selectedPicture = picture // Updated here
+                                            selectedPicture = picture+"1" // Updated here
                                         }
                                 }
                             }
@@ -73,7 +76,7 @@ struct HomepageView: View {
                         ))
                     }
                 }
-            }
+            }.background(Color("customBackground"))
         }
     }
     
@@ -83,7 +86,7 @@ struct HomepageView: View {
             return picturesArray
         } else {
             return picturesArray.filter { animalImage in
-                let animalCategory = AnimalImages.animalDictionary.first { _, images in
+                let animalCategory = AnimalImages.nonTransparentAnimalDictionary.first { _, images in
                     images.contains(animalImage)
                 }?.key
                 return selectedAnimalFilters.contains(animalCategory ?? "")
@@ -94,6 +97,9 @@ struct HomepageView: View {
 
 struct HomepageView_Previews: PreviewProvider {
     static var previews: some View {
-        HomepageView()
+        Group {
+            HomepageView().preferredColorScheme(.light)
+            HomepageView().preferredColorScheme(.dark)
+        }
     }
 }
