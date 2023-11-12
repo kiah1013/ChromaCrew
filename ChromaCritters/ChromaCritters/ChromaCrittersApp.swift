@@ -19,19 +19,23 @@ class UserAuth: ObservableObject {
 }
 
 @main
+
 struct ChromaCrittersApp: App {
     @StateObject var userAuth = UserAuth()
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @AppStorage("isDarkMode") private var isDarkMode = false
+
 
     var body: some Scene {
         WindowGroup {
             if userAuth.isLogged {
-                HomepageView().environmentObject(userAuth)
+                HomepageView().environmentObject(userAuth).preferredColorScheme(isDarkMode ? .dark : .light)
             } else if userAuth.isGuest {
-                HomepageView().environmentObject(userAuth)
+                HomepageView().environmentObject(userAuth).preferredColorScheme(isDarkMode ? .dark : .light)
             } else {
-                LoginView().environmentObject(userAuth)
+                LoginView().environmentObject(userAuth).preferredColorScheme(isDarkMode ? .dark : .light)
             }
+            
         }
     }
 }

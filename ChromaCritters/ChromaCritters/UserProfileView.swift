@@ -12,13 +12,13 @@ struct UserProfileView: View {
     @Environment(\.dismiss) var dismiss
     @State private var selectedPicture = ""
     @Environment(\.colorScheme) var colorScheme
-
+    @AppStorage("isDarkMode") private var isDarkMode = false
     // Flatmap flattens an array of arrays into a single array, $0 means no transformations
     var picturesArray = AnimalImages.animalDictionary.values.flatMap { $0 }
     
     var body: some View {
         let columnLayout = Array(repeating: GridItem(), count: 2)
-        
+            
         NavigationStack {
             VStack(spacing: 0) {
                 HStack {
@@ -28,6 +28,9 @@ struct UserProfileView: View {
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .padding()
+                    Spacer()
+                    Toggle("", isOn: $isDarkMode)
+                     
                     Spacer()
                     Button{
                         dismiss()
