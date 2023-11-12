@@ -18,6 +18,7 @@ struct ToolsAndCanvasView: View {
         let maxScale: CGFloat = 3.0 // Adjust the maximum scale as needed
         @State var isPanning: Bool = false
         
+        @Environment(\.colorScheme) var colorScheme
         @EnvironmentObject var userAuth: UserAuth
         var snapshotImage: UIImage? {
            let renderer = ImageRenderer(content: canvasForDrawing.frame(width:390, height: 390))
@@ -128,29 +129,44 @@ struct ToolsAndCanvasView: View {
                     
                 // -----------------top/bottom tool display--------------------
                 ZStack {
-                    Rectangle().fill(LinearGradient(gradient: Gradient(colors:
-                                                                        [Color(red: 254/255, green: 247/255, blue: 158/255),
-                                                                                    Color(red:169/255, green: 255/255, blue: 158/255),
-                                                                                    Color(red: 158/255, green: 249/255, blue: 252/255),
-                                                                                    Color(red: 159/255, green: 158/255, blue: 254/255),
-                                                                                    Color(red: 255/255, green: 155/255, blue: 233/255),
-                                                                                    Color(red: 254/255, green: 195/255, blue:155/255)]), startPoint: .topLeading, endPoint: .bottomTrailing)
-                                     
-                                     
-                                    )
-                    
+                    Rectangle().fill(colorScheme == .light
+                     ?  LinearGradient(gradient: Gradient(colors:
+                        [Color(red: 254/255, green: 247/255, blue: 158/255),
+                        Color(red: 169/255, green: 255/255, blue: 158/255),
+                        Color(red: 158/255, green: 249/255, blue: 252/255),
+                        Color(red: 159/255, green: 158/255, blue: 254/255),
+                        Color(red: 255/255, green: 155/255, blue: 233/255),
+                        Color(red: 254/255, green: 195/255, blue:155/255)]),
+                        startPoint: .topLeading, endPoint: .bottomTrailing)
+                     : LinearGradient(gradient: Gradient(colors:
+                        [Color(red: 0, green: 0, blue: 0.3),
+                        Color(red: 0.67, green: 0.25, blue: 0.9),
+                        Color(red: 0.5, green: 0.35, blue: 0.9),
+                        Color(red: 0.07, green: 0.2, blue: 0.3),
+                        Color(red: 0, green: 0, blue: 0.2)]),
+                        startPoint: .topLeading, endPoint: .bottomTrailing)
+                    )
                         .ignoresSafeArea().offset(y:-700)
                         .frame(width: 395, height: 132)
                         .foregroundColor(Color(hue: 0.0, saturation: 0.0, brightness: 0.75))
                     
                     // bottom tools display
-                    Rectangle().fill(LinearGradient(gradient: Gradient(colors:
-                                                                        [Color(red: 254/255, green: 247/255, blue: 158/255),
-                                                                         Color(red:169/255, green: 255/255, blue: 158/255),
-                                                                         Color(red: 158/255, green: 249/255, blue: 252/255),
-                                                                         Color(red: 159/255, green: 158/255, blue: 254/255),]), startPoint: .topLeading, endPoint: .bottomTrailing)
-                                    )
-                    
+                    Rectangle().fill(colorScheme == .light
+                    ?    LinearGradient(gradient: Gradient(colors:
+                        [Color(red: 254/255, green: 247/255, blue: 158/255),
+                         Color(red:169/255, green: 255/255, blue: 158/255),
+                         Color(red: 158/255, green: 249/255, blue: 252/255),
+                         Color(red: 159/255, green: 158/255, blue: 254/255),]), 
+                        startPoint: .topLeading, endPoint: .bottomTrailing)
+                                     
+                    : LinearGradient(gradient: Gradient(colors:
+                        [Color(red: 0, green: 0, blue: 0.2),
+                        Color(red: 0.7, green: 0.25, blue: 0.9),
+                        Color(red: 0.5, green: 0.35, blue: 0.9),
+                        Color(red: 0.07, green: 0.2, blue: 0.3),
+                        Color(red: 0, green: 0, blue: 0.2)]),
+                        startPoint: .topLeading, endPoint: .bottomTrailing)
+                    )
                         .ignoresSafeArea()
                         .frame(width: 395, height: 135)
                         .foregroundColor(Color(hue: 0.0, saturation: 0.0, brightness: 0.75))
@@ -168,7 +184,7 @@ struct ToolsAndCanvasView: View {
                             Button { drawingTool = .eraser } label: {
                                 Image(systemName: "eraser.fill")
                                     .font(.title)
-                                    .foregroundColor(drawingTool == .eraser ? .white: .gray)
+                                    .foregroundColor(drawingTool == .eraser ? .white : Color("toolsColor"))
                             }
                             // saving image to photos
                             .toolbar{
@@ -179,14 +195,15 @@ struct ToolsAndCanvasView: View {
                                     }
                                 } label: {
                                     Image(systemName: "square.and.arrow.down.fill")
-                                        .foregroundColor(.gray)
+                                        .foregroundColor(Color("titleColor"))
+                                        .font(.title)
                                 }
                             }
                             .toolbar {
                                 Button {
                                     uploadColoredPageToFirestore()
                                 } label: {
-                                    Text("Upload")
+                                    Text("Upload").foregroundColor(Color("titleColor"))
                                 }
                             }
                             
@@ -207,7 +224,7 @@ struct ToolsAndCanvasView: View {
                                 if isPanning == true {
                                     Image(systemName: "dot.arrowtriangles.up.right.down.left.circle").font(.title)
                                 } else {
-                                    Image(systemName: "dot.arrowtriangles.up.right.down.left.circle").foregroundColor(.gray).font(.title)
+                                    Image(systemName: "dot.arrowtriangles.up.right.down.left.circle").font(.title).foregroundColor(Color("toolsColor"))
                                 }
                             }
                         }
@@ -259,7 +276,7 @@ struct ToolsAndCanvasView: View {
             } label: {
                 Image(systemName: "pencil.tip.crop.circle.badge.minus")
                     .font(.title)
-                    .foregroundColor(.gray)
+                    .foregroundColor(Color("buttonsColor"))
             }.confirmationDialog(Text("Are you sure you want to delete your progress?"), isPresented: $showConfirmation) {
                 Button("Delete", role: .destructive) {
                     savingDocument.lines = [Line]()
@@ -276,7 +293,7 @@ struct ToolsAndCanvasView: View {
             } label: {
                 Image(systemName: "arrow.uturn.backward.circle")
                     .font(.title)
-                    //.foregroundColor(.gray)
+                    .foregroundColor(Color("buttonsColor"))
             }.disabled(savingDocument.lines.count == 0)
         }
     
@@ -288,7 +305,7 @@ struct ToolsAndCanvasView: View {
             } label: {
                 Image(systemName: "arrow.uturn.forward.circle")
                     .font(.title)
-                    //.foregroundColor(.gray)
+                    .foregroundColor(Color("buttonsColor"))
             }.disabled(deletedLines.count == 0)
         }
     
@@ -306,7 +323,7 @@ struct ToolsAndCanvasView: View {
            Button { drawingTool = tool } label: {
                Image(systemName: imageName)
                    .font(.title)
-                   .foregroundColor(drawingTool == tool ? selectedColor : .gray)
+                   .foregroundColor(drawingTool == tool ? selectedColor : Color("toolsColor"))
                }
        }
 
@@ -417,7 +434,17 @@ struct ToolsAndCanvasView: View {
        }
 }
 
-#Preview {
-    ToolsAndCanvasView(animal: "dog1")
-}
+//#Preview {
+//    Group {
+//        ToolsAndCanvasView(animal: "dog1")
+//    }
+//}
 
+struct ToolsAndCanvasView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            ToolsAndCanvasView(animal: "dog1").preferredColorScheme(.light)
+            ToolsAndCanvasView(animal: "dog1").preferredColorScheme(.dark)
+        }
+    }
+}

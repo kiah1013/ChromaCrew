@@ -39,6 +39,7 @@ struct FilterButtonsView: View {
                         Image(systemName: selectedAnimalFilters.contains(animal) ? "xmark" : "")
                         Text("\(animal)")
                             .fontWeight(.bold)
+                            .foregroundColor(Color("filterColor"))
                     }
                     .buttonStyle(.bordered)
                     .buttonBorderShape(.capsule)

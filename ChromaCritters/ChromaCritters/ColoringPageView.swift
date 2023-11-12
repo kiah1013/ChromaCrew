@@ -25,7 +25,8 @@ struct ColoringPageView: View {
                     
                 }label: {
                     Image(systemName: "house.fill")
-                        .foregroundColor(.black)
+                        .foregroundColor(Color("titleColor"))
+                        .font(.title)
                 }
                     }
                 }
