@@ -59,7 +59,7 @@ struct UserProfileView: View {
                     else{
                         LazyVGrid(columns: columnLayout) {
                             VStack {
-                                Image("dog2")
+                                Image("dog")
                                     .resizable()
                                     .scaledToFit()
                                     .border(Color.black)
