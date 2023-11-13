@@ -18,7 +18,6 @@ struct HomepageView: View {
     
     var body: some View {
         let columnLayout = Array(repeating: GridItem(), count: 2)
-        
         NavigationStack {
             VStack(spacing: 0) {
                 HStack {
@@ -46,32 +45,36 @@ struct HomepageView: View {
                                                                        Color(red: 254/255, green: 195/255, blue: 155/255)]), startPoint: .topLeading, endPoint: .bottomTrailing))
                 
                 Divider()
+                //DailyImageView()
                 ScrollView {
+                    DailyImageView()
                     Spacer()
                     Spacer()
+                    //DailyImageView()
                     FilterButtonsView(selectedAnimalFilters: $selectedAnimalFilters)
-                    LazyVGrid(columns: columnLayout) {
-                        ForEach(filteredPicturesArray, id: \.self) { picture in
-                            if searchedAnimal.isEmpty || picture.lowercased().contains(searchedAnimal.lowercased()) {
-                                VStack {
-                                    Image(picture)
-                                        .resizable()
-                                        .scaledToFit()
-                                        .border(Color.black)
-                                        .clipped() // Keeps pictures within the border
-                                        .padding()
-                                        .onTapGesture {
-                                            selectedPicture = picture // Updated here
-                                        }
+                        LazyVGrid(columns: columnLayout) {
+                            //DailyImageView()
+                            ForEach(filteredPicturesArray, id: \.self) { picture in
+                                if searchedAnimal.isEmpty || picture.lowercased().contains(searchedAnimal.lowercased()) {
+                                    VStack {
+                                        Image(picture)
+                                            .resizable()
+                                            .scaledToFit()
+                                            .border(Color.black)
+                                            .clipped() // Keeps pictures within the border
+                                            .padding()
+                                            .onTapGesture {
+                                                selectedPicture = picture // Updated here
+                                            }
+                                    }
                                 }
                             }
+                            // Switches to ColoringPageView when picture is tapped
+                            NavigationLink("", destination: ColoringPageView(selectedPicture: $selectedPicture), isActive: Binding(
+                                get: { selectedPicture != "" },
+                                set: { if !$0 { selectedPicture = "" } }
+                            ))
                         }
-                        // Switches to ColoringPageView when picture is tapped
-                        NavigationLink("", destination: ColoringPageView(selectedPicture: $selectedPicture), isActive: Binding(
-                            get: { selectedPicture != "" },
-                            set: { if !$0 { selectedPicture = "" } }
-                        ))
-                    }
                 }
             }
         }
@@ -97,3 +100,4 @@ struct HomepageView_Previews: PreviewProvider {
         HomepageView()
     }
 }
+
