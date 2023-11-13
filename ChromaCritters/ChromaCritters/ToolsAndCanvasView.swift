@@ -36,6 +36,7 @@ struct ToolsAndCanvasView: View {
     @State private var selectedLineWidth: CGFloat = 7
     @State private var drawingTool = DrawingTool.pen
     @State private var showConfirmation: Bool = false
+    @State private var showAlert = false
     private let pencilCase = PencilCase()
     private let paintBrushCase = PaintbrushCase()
     var lineCap: CGLineCap = .round
@@ -186,8 +187,14 @@ struct ToolsAndCanvasView: View {
                         .toolbar {
                             Button {
                                 uploadColoredPageToFirestore()
+                                showAlert = true
+
                             } label: {
                                 Text("Upload")
+                            }.alert(isPresented: $showAlert) {
+                                Alert (
+                                    title: Text("Upload Successful"),
+                                    message: Text("Your image has been saved to your profile."))
                             }
                         }
                         
