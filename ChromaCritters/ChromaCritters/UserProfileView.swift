@@ -82,9 +82,8 @@ struct UserProfileView: View {
     func retrievePhotos() {
         let db = Firestore.firestore()
         // Crashes app when using Guest Mode
-        // let userId = userAuth.userId!
+        let userId = userAuth.userId!
         
-        if let userId = userAuth.userId {
             db.collection("coloredPagesDB").whereField("url", isGreaterThanOrEqualTo: "usersStorage/\(userId)/").getDocuments { snapshot, error in
                 if error == nil && snapshot != nil {
                     var paths = [String]()
@@ -109,9 +108,6 @@ struct UserProfileView: View {
                     }
                 }
             }
-        } else {
-            print("Guest Mode")
-        }
     }
 }
 
