@@ -39,11 +39,12 @@ struct FilterButtonsView: View {
                         Image(systemName: selectedAnimalFilters.contains(animal) ? "xmark" : "")
                         Text("\(animal)")
                             .fontWeight(.bold)
+                            .foregroundColor(Color("filterColor"))
                     }
                     .buttonStyle(.bordered)
                     .buttonBorderShape(.capsule)
                     .controlSize(.large)
-                    .tint(selectedAnimalFilters.contains(animal) ? Color.red : Color(red: 159/255, green: 158/255, blue: 254/255))
+                    .tint(selectedAnimalFilters.contains(animal) ? Color("customRed"): Color("customPurple"))
                     .padding(.horizontal, 3)
                 }
                 .padding(.leading)
