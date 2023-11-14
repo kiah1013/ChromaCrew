@@ -68,13 +68,14 @@ struct ToolsAndCanvasView: View {
                             path.addLines(line.points)
                             ctx.stroke(path, with: .color(.white),style: StrokeStyle(lineWidth: line.lineWidth, lineCap: lineCapIs(tool: line.tool), lineJoin: .round))
                         }
-                    
-                } .frame(width:385, height: 385)
-                Image(animal).resizable().scaledToFit().border(Color("borderColor"), width: 5)
+                    }
+                        
+                    } .frame(width:385, height: 385)
+                    Image(animal).resizable().scaledToFit().border(Color("borderColor"), width: 5)
+                }
             }
-            }
-        }
-    }
+        
+    
         var body: some View {
             VStack {
                 Spacer()
@@ -239,8 +240,8 @@ struct ToolsAndCanvasView: View {
                 }
             }
             
-        }
-    }
+        
+    
     
     // ---------------------------buttons----------------------------------
         func uploadColoredPageToFirestore() {
@@ -439,8 +440,9 @@ struct ToolsAndCanvasView: View {
                lastPoint = point
            }
        }
-       }
 }
+
+
 
 //#Preview {
 //    Group {

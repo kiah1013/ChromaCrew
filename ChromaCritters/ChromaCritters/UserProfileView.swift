@@ -82,7 +82,7 @@ struct UserProfileView: View {
                                 Image(uiImage: image)
                                     .resizable()
                                     .scaledToFit()
-                                    .border(Color.black)
+                                    .border(Color("borderColor"))
                                     .clipped() // Keeps pictures within the border
                                     .cornerRadius(15)
                                     .padding()
