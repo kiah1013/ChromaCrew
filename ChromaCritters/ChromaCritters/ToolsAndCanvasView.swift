@@ -36,6 +36,7 @@ struct ToolsAndCanvasView: View {
         @State private var selectedLineWidth: CGFloat = 7
         @State private var drawingTool = DrawingTool.pen
         @State private var showConfirmation: Bool = false
+        @State private var showAlert = false
         private let pencilCase = PencilCase()
         private let paintBrushCase = PaintbrushCase()
         var lineCap: CGLineCap = .round
@@ -67,13 +68,13 @@ struct ToolsAndCanvasView: View {
                             path.addLines(line.points)
                             ctx.stroke(path, with: .color(.white),style: StrokeStyle(lineWidth: line.lineWidth, lineCap: lineCapIs(tool: line.tool), lineJoin: .round))
                         }
-                    }
                     
                 } .frame(width:385, height: 385)
                 Image(animal).resizable().scaledToFit().border(Color("borderColor"), width: 5)
             }
+            }
         }
-    
+    }
         var body: some View {
             VStack {
                 Spacer()
@@ -202,8 +203,13 @@ struct ToolsAndCanvasView: View {
                             .toolbar {
                                 Button {
                                     uploadColoredPageToFirestore()
+                                    showAlert = true
                                 } label: {
                                     Text("Upload").foregroundColor(Color("titleColor"))
+                                }.alert(isPresented: $showAlert) {
+                                    Alert (
+                                        title: Text("Upload Successful"),
+                                        message: Text("Your image has been saved to your profile."))
                                 }
                             }
                             
@@ -223,19 +229,20 @@ struct ToolsAndCanvasView: View {
                             Button(action: {self.isPanning.toggle()}) {
                                 if isPanning == true {
                                     Image(systemName: "dot.arrowtriangles.up.right.down.left.circle").font(.title)
-                                } else {
+                                    Image(systemName: "dot.arrowtriangles.up.right.down.left.circle").font(.title)
                                     Image(systemName: "dot.arrowtriangles.up.right.down.left.circle").font(.title).foregroundColor(Color("toolsColor"))
+                                }
                                 }
                             }
                         }
                     }
                 }
-                    
             }
+            
         }
+    }
     
     // ---------------------------buttons----------------------------------
-    
         func uploadColoredPageToFirestore() {
             if userAuth.isLogged {
                 guard snapshotImage != nil else {
@@ -431,6 +438,7 @@ struct ToolsAndCanvasView: View {
                }
                lastPoint = point
            }
+       }
        }
 }
 
