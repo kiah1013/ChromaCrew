@@ -13,21 +13,26 @@ struct ColoringPageView: View {
     @Binding var selectedPicture: String
     var body: some View {
         VStack {
+//            Text("Coloring Page")
+//                .font(.largeTitle)
             ZStack {
-                ToolsAndCanvasView(animal: self.selectedPicture, savingDocument: SavingDocument(animalPictureName: self.selectedPicture))
+                Canvas { ctx, size in
+                    
+                }
+                //
+                ToolsAndCanvasView(animal: self.selectedPicture)
+                
             }
         }
+        //.navigationTitle("Coloring Page")
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement:.navigationBarLeading) {
-                Button{
-                    dismiss()
-                    
-                }label: {
-                    Image(systemName: "house.fill")
-                        .foregroundColor(Color("titleColor"))
-                        .font(.title)
-                }
+                        Button(action: {
+                            dismiss()
+                        }) {
+                            Label("Back", systemImage: "house.fill").foregroundColor(Color.black)
+                        }
                     }
                 }
     }

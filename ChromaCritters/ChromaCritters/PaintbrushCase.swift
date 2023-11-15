@@ -55,7 +55,7 @@ class PaintbrushCase {
         }
     }
 
-    private func connectPaintBrushTips(color: Color, lineWidth: CGFloat) -> Images {
+    private func createPaintBrushTips(color: Color, lineWidth: CGFloat) -> Images {
         var result = Images()
         result.reserveCapacity(nTipsPerSize)
         for _ in 0..<nTipsPerSize {
@@ -70,12 +70,12 @@ class PaintbrushCase {
             if let existingTips = paintBrushTips[lineWidth] {
                 result = existingTips[point2TipIndex(point)]
             } else {
-                let tips = connectPaintBrushTips(color: color, lineWidth: lineWidth)
+                let tips = createPaintBrushTips(color: color, lineWidth: lineWidth)
                 colorMap[color]?[lineWidth] = tips
                 result = tips[point2TipIndex(point)]
             }
         } else {
-            let tips = connectPaintBrushTips(color: color, lineWidth: lineWidth)
+            let tips = createPaintBrushTips(color: color, lineWidth: lineWidth)
             colorMap[color] = [lineWidth: tips]
             result = tips[point2TipIndex(point)]
         }
