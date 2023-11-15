@@ -8,15 +8,21 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var userAuth: UserAuth
+    
     var body: some View {
         VStack {
-            HomepageView()
+            if userAuth.isLogged || userAuth.isGuest {
+                HomepageView()
+            } else {
+                LoginView()
+            }
         }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView().environmentObject(UserAuth()) 
     }
 }
