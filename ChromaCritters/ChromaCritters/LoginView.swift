@@ -16,7 +16,7 @@ struct LoginView: View {
     @EnvironmentObject var userAuth: UserAuth
     @StateObject private var authView = AuthView()
     @State private var showingRegistration = false
-    @State private var showingEmailSignIn = false // State to control email sign-in view presentation
+    @State private var showingEmailSignIn = false 
     
     let signInWithAppleManager = SignInWithAppleManager()
     
@@ -41,7 +41,7 @@ struct LoginView: View {
             .foregroundColor(.white)
             .cornerRadius(10)
             .sheet(isPresented: $showingEmailSignIn) {
-                EmailSignInView() // This would be your custom view for email sign-in
+                EmailSignInView() 
             }
             
             Button("Sign Up") {

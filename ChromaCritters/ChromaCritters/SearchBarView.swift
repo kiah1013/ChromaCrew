@@ -14,12 +14,10 @@ struct SearchBarView: View {
     var body: some View {
         HStack {
             Image(systemName: "magnifyingglass")
-                .foregroundColor(
-                    searchedAnimal.isEmpty ? Color.secondary : Color.primary
-                )
-            TextField("Search animal...", text: $searchedAnimal)
+                .foregroundColor(Color("customBlack"))
+            TextField("", text: $searchedAnimal, prompt: Text("Search animal...").foregroundColor(Color("customGray")))
+                .foregroundColor(Color("customBlack"))
                 .autocorrectionDisabled()
-                .foregroundColor(.primary)
                 .overlay(
                     Image(systemName: "xmark.circle.fill")
                         .padding()

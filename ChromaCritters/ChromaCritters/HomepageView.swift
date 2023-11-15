@@ -13,11 +13,11 @@ struct HomepageView: View {
     @State private var selectedPicture = ""
     //@State private var selectedPic = ""
     @State private var selectedAnimalFilters: [String] = []
-    let colLayout = Array(repeating: GridItem(), count: 1)
-    
+    @Environment(\.colorScheme) var colorScheme
+
     
     // Flatmap flattens an array of arrays into a single array, $0 means no transformations
-    var picturesArray = AnimalImages.animalDictionary.values.flatMap { $0 }
+    var picturesArray = AnimalImages.nonTransparentAnimalDictionary.values.flatMap { $0 }
     
     var body: some View {
         let columnLayout = Array(repeating: GridItem(), count: 2)
@@ -26,6 +26,7 @@ struct HomepageView: View {
                 HStack {
                     Text("Library")
                         .padding(.top)
+                        .foregroundColor(Color("titleColor"))
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .padding()
@@ -33,19 +34,29 @@ struct HomepageView: View {
                     NavigationLink(destination: UserProfileView()){
                         Image(systemName: "person.crop.circle")
                             .font(.title)
-                            .foregroundColor(.black)
+                            .foregroundColor(Color("titleColor"))
                             
                     }
                     .padding(.leading, -130)
                     .padding(.top, -60)
                     SearchBarView(searchedAnimal: $searchedAnimal, selectedFilters: $selectedAnimalFilters)
                 }
-                .background(LinearGradient(gradient: Gradient(colors: [Color(red: 254/255, green: 247/255, blue: 158/255),
-                                                                       Color(red:169/255, green: 255/255, blue: 158/255),
-                                                                       Color(red: 158/255, green: 249/255, blue: 252/255),
-                                                                       Color(red: 159/255, green: 158/255, blue: 254/255),
-                                                                       Color(red: 255/255, green: 155/255, blue: 233/255),
-                                                                       Color(red: 254/255, green: 195/255, blue: 155/255)]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                .background(colorScheme == .light
+                ?    LinearGradient(gradient: Gradient(colors:
+                    [Color(red: 254/255, green: 247/255, blue: 158/255),
+                     Color(red:169/255, green: 255/255, blue: 158/255),
+                     Color(red: 158/255, green: 249/255, blue: 252/255),
+                     Color(red: 159/255, green: 158/255, blue: 254/255),]),
+                    startPoint: .topLeading, endPoint: .bottomTrailing)
+                                 
+                : LinearGradient(gradient: Gradient(colors:
+                    [Color(red: 0, green: 0, blue: 0.2),
+                    Color(red: 0.7, green: 0.25, blue: 0.9),
+                    Color(red: 0.5, green: 0.35, blue: 0.9),
+                    Color(red: 0.07, green: 0.2, blue: 0.3),
+                    Color(red: 0, green: 0, blue: 0.2)]),
+                    startPoint: .topLeading, endPoint: .bottomTrailing)
+                )
                 
                 Divider()
                 //DailyImageView()
@@ -83,21 +94,20 @@ struct HomepageView: View {
                     
                   
                     FilterButtonsView(selectedAnimalFilters: $selectedAnimalFilters)
-                        LazyVGrid(columns: columnLayout) {
-                            //DailyImageView()
-                            ForEach(filteredPicturesArray, id: \.self) { picture in
-                                if searchedAnimal.isEmpty || picture.lowercased().contains(searchedAnimal.lowercased()) {
-                                    VStack {
-                                        Image(picture)
-                                            .resizable()
-                                            .scaledToFit()
-                                            .border(Color.black)
-                                            .clipped() // Keeps pictures within the border
-                                            .padding()
-                                            .onTapGesture {
-                                                selectedPicture = picture // Updated here
-                                            }
-                                                                                }
+                    LazyVGrid(columns: columnLayout) {
+                        ForEach(filteredPicturesArray, id: \.self) { picture in
+                            if searchedAnimal.isEmpty || picture.lowercased().contains(searchedAnimal.lowercased()) {
+                                VStack {
+                                    Image(picture)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .border(Color("borderColor"), width: 2)
+                                        .clipped() // Keeps pictures within the border
+                                        .cornerRadius(15)
+                                        .padding()
+                                        .onTapGesture {
+                                            selectedPicture = picture+"1" // Updated here
+                                        }
                                 }
                             }
                             // Switches to ColoringPageView when picture is tapped
@@ -110,7 +120,7 @@ struct HomepageView: View {
                     
                     
                 }
-            }
+            }.background(Color("customBackground"))
         }
     }
     
@@ -120,7 +130,7 @@ struct HomepageView: View {
             return picturesArray
         } else {
             return picturesArray.filter { animalImage in
-                let animalCategory = AnimalImages.animalDictionary.first { _, images in
+                let animalCategory = AnimalImages.nonTransparentAnimalDictionary.first { _, images in
                     images.contains(animalImage)
                 }?.key
                 return selectedAnimalFilters.contains(animalCategory ?? "")
@@ -131,7 +141,10 @@ struct HomepageView: View {
 
 struct HomepageView_Previews: PreviewProvider {
     static var previews: some View {
-        HomepageView()
+        Group {
+            HomepageView().preferredColorScheme(.light)
+            HomepageView().preferredColorScheme(.dark)
+        }
     }
 }
 

@@ -74,10 +74,8 @@ struct EmailSignInView: View {
     private func signInWithEmail(email: String, password: String) {
         Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
             if let error = error {
-                // Handle errors like wrong password, user not found etc.
                 self.errorText = error.localizedDescription
             } else if let authResult = authResult {
-                // Update our app's user authentication state
                 DispatchQueue.main.async {
                     self.userAuth.userId = authResult.user.uid
                     self.userAuth.isLogged = true

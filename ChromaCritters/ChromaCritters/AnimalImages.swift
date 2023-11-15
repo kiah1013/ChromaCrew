@@ -18,6 +18,16 @@ struct AnimalImages {
         "Dolphin" : [],
         "Turtle" : []
     ]
+    static var nonTransparentAnimalDictionary = [
+        "Dog" : ["dog"],
+        "Cat" : ["cat"],
+        "Bear" : ["bear"],
+        "Duck" : ["duck"],
+        "Bunny" : ["bunny"],
+        "Giraffe" : [],
+        "Dolphin" : [],
+        "Turtle" : []
+    ]
 }
 
 
