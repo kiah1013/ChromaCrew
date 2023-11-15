@@ -11,7 +11,10 @@ import SwiftUI
 struct HomepageView: View {
     @State private var searchedAnimal = ""
     @State private var selectedPicture = ""
+    //@State private var selectedPic = ""
     @State private var selectedAnimalFilters: [String] = []
+    let colLayout = Array(repeating: GridItem(), count: 1)
+    
     
     // Flatmap flattens an array of arrays into a single array, $0 means no transformations
     var picturesArray = AnimalImages.animalDictionary.values.flatMap { $0 }
@@ -47,10 +50,38 @@ struct HomepageView: View {
                 Divider()
                 //DailyImageView()
                 ScrollView {
-                    DailyImageView()
+                    //DailyImageView()
                     Spacer()
                     Spacer()
                     //DailyImageView()
+                    
+                      NavigationStack {
+                            Text("Daily recommended image:")
+                                .font(.headline)
+                                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                            
+                         Image("dog1")
+                                .resizable()
+                                .scaledToFit()
+                                .border(Color.black)
+                                .clipped() // Keeps pictures within the border
+                                .padding()
+                                .onTapGesture {
+                                    selectedPicture = "dog1" // Updated here
+                                }
+                            NavigationLink("", destination: ColoringPageView(selectedPicture: $selectedPicture), isActive: Binding(
+                                get: { selectedPicture != "" },
+                                set: { if !$0 { selectedPicture = "" } }
+                            ))
+      
+                            
+                        }
+                        .onTapGesture {
+        
+                                    }
+                    
+                    
+                  
                     FilterButtonsView(selectedAnimalFilters: $selectedAnimalFilters)
                         LazyVGrid(columns: columnLayout) {
                             //DailyImageView()
@@ -66,7 +97,7 @@ struct HomepageView: View {
                                             .onTapGesture {
                                                 selectedPicture = picture // Updated here
                                             }
-                                    }
+                                                                                }
                                 }
                             }
                             // Switches to ColoringPageView when picture is tapped
@@ -75,6 +106,9 @@ struct HomepageView: View {
                                 set: { if !$0 { selectedPicture = "" } }
                             ))
                         }
+                        
+                    
+                    
                 }
             }
         }
