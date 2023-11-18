@@ -11,10 +11,12 @@ struct ColoringPageView: View {
     // @Binding is used when variables need to be passed between 2 views
     @Environment(\.dismiss) var dismiss
     @Binding var selectedPicture: String
+    @EnvironmentObject var userAuth: UserAuth
+    
     var body: some View {
         VStack {
             ZStack {
-                ToolsAndCanvasView(animal: self.selectedPicture, savingDocument: SavingDocument(animalPictureName: self.selectedPicture))
+                ToolsAndCanvasView(animal: self.selectedPicture, savingDocument: SavingDocument(animalPictureName: self.selectedPicture, userId: getUserId()))
             }
         }
         .navigationBarBackButtonHidden(true)
@@ -30,6 +32,17 @@ struct ColoringPageView: View {
                 }
                     }
                 }
+    }
+    func getUserId() -> String {
+        var userId: String
+        
+        if userAuth.isLogged {
+            userId = "\(userAuth.userId!)"
+        } else {
+            userId = "0"
+        }
+        
+        return userId
     }
 }
 
