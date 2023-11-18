@@ -82,9 +82,14 @@ struct UserProfileView: View {
     func retrievePhotos() {
         let db = Firestore.firestore()
         // Crashes app when using Guest Mode
-        let userId = userAuth.userId!
+        guard let userId = userAuth.userId else {
+            print("User ID is nil.")
+            return
+        }
         
-            db.collection("coloredPagesDB").whereField("url", isGreaterThanOrEqualTo: "usersStorage/\(userId)/").getDocuments { snapshot, error in
+        db.collection("coloredPagesDB").whereField("url", isGreaterThanOrEqualTo: "usersStorage/\(userId)/")
+            .whereField("url", isLessThan: "usersStorage/\(userId)/z")
+            .getDocuments { snapshot, error in
                 if error == nil && snapshot != nil {
                     var paths = [String]()
                     
@@ -96,11 +101,11 @@ struct UserProfileView: View {
                         let storageRef = Storage.storage().reference()
                         let fileRef = storageRef.child(path)
                         
-                        fileRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
-                            if error == nil && data != nil {
-                                if let image = UIImage(data: data!) {
+                        fileRef.getData(maxSize: 5 * 1024 * 1024) { [self] data, error in
+                            if error == nil, let data = data {
+                                if let image = UIImage(data: data) {
                                     DispatchQueue.main.async {
-                                        retrievedImages.append(image)
+                                        self.retrievedImages.append(image)
                                     }
                                 }
                             }
