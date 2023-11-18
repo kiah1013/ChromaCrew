@@ -14,6 +14,8 @@ struct EmailSignInView: View {
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var errorText: String? = nil
+    @Environment(\.colorScheme) var colorScheme
+
     
     var body: some View {
         NavigationView {
@@ -58,12 +60,24 @@ struct EmailSignInView: View {
             
             .padding()
             .navigationBarTitle("Sign In", displayMode: .inline)
-            .background(LinearGradient(gradient: Gradient(colors: [Color(red: 254/255, green: 247/255, blue: 158/255),
-                                                                   Color(red:169/255, green: 255/255, blue: 158/255),
-                                                                   Color(red: 158/255, green: 249/255, blue: 252/255),
-                                                                   Color(red: 159/255, green: 158/255, blue: 254/255),
-                                                                   Color(red: 255/255, green: 155/255, blue: 233/255),
-                                                                   Color(red: 254/255, green: 195/255, blue: 155/255)]), startPoint: .topLeading, endPoint: .bottomTrailing))
+            .background(colorScheme == .light
+                        ?    LinearGradient(gradient: Gradient(colors:
+                                                                [Color(red: 254/255, green: 247/255, blue: 158/255),
+                                                                 Color(red:169/255, green: 255/255, blue: 158/255),
+                                                                 Color(red: 158/255, green: 249/255, blue: 252/255),
+                                                                 Color(red: 159/255, green: 158/255, blue: 254/255),
+                                                                 Color(red: 255/255, green: 155/255, blue: 233/255),
+                                                                 Color(red: 254/255, green: 195/255, blue: 155/255)]),
+                                            startPoint: .topLeading, endPoint: .bottomTrailing)
+                        
+                        : LinearGradient(gradient: Gradient(colors:
+                                                                [Color(red: 0, green: 0, blue: 0.2),
+                                                                 Color(red: 0.7, green: 0.25, blue: 0.9),
+                                                                 Color(red: 0.5, green: 0.35, blue: 0.9),
+                                                                 Color(red: 0.07, green: 0.2, blue: 0.3),
+                                                                 Color(red: 0, green: 0, blue: 0.2)]),
+                                         startPoint: .topLeading, endPoint: .bottomTrailing)
+            )
           
         }
         
