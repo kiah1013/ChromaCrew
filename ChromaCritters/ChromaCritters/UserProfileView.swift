@@ -113,42 +113,39 @@ struct UserProfileView: View {
         }
     }
     func retrievePhotos() {
+        let db = Firestore.firestore()
+        // Crashes app when using Guest Mode
         guard let userId = userAuth.userId else {
-            print("No user ID available.")
+            print("User ID is nil.")
             return
         }
-
-        let db = Firestore.firestore()
-
-        db.collection("coloredPagesDB").whereField("url", isGreaterThanOrEqualTo: "usersStorage/\(userId)/").getDocuments { snapshot, error in
-            if let error = error {
-                print("Error getting documents: \(error)")
-            } else {
-                var paths = [String]()
-                
-                for document in snapshot!.documents {
-                    if let url = document.data()["url"] as? String {
-                        paths.append(url)
-                    }
-                }
-                
-                for path in paths {
-                    let storageRef = Storage.storage().reference()
-                    let fileRef = storageRef.child(path)
+        
+        db.collection("coloredPagesDB").whereField("url", isGreaterThanOrEqualTo: "usersStorage/\(userId)/")
+            .whereField("url", isLessThan: "usersStorage/\(userId)/z")
+            .getDocuments { snapshot, error in
+                if error == nil && snapshot != nil {
+                    var paths = [String]()
                     
-                    fileRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
-                        if let error = error {
-                            // Handle any errors
-                            print("Error getting data: \(error)")
-                        } else if let data = data, let image = UIImage(data: data) {
-                            DispatchQueue.main.async {
-                                self.retrievedImages.append(image)
+                    for doc in snapshot!.documents {
+                        paths.append(doc["url"] as! String)
+                    }
+                    
+                    for path in paths {
+                        let storageRef = Storage.storage().reference()
+                        let fileRef = storageRef.child(path)
+                        
+                        fileRef.getData(maxSize: 5 * 1024 * 1024) { [self] data, error in
+                            if error == nil, let data = data {
+                                if let image = UIImage(data: data) {
+                                    DispatchQueue.main.async {
+                                        self.retrievedImages.append(image)
+                                    }
+                                }
                             }
                         }
                     }
                 }
             }
-        }
     }
     func signOut() {
         do {
