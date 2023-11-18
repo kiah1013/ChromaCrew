@@ -230,8 +230,8 @@ struct ToolsAndCanvasView: View {
                             Button(action: {self.isPanning.toggle()}) {
                                 if isPanning == true {
                                     Image(systemName: "dot.arrowtriangles.up.right.down.left.circle").font(.title)
-                                    Image(systemName: "dot.arrowtriangles.up.right.down.left.circle").font(.title)
-                                    Image(systemName: "dot.arrowtriangles.up.right.down.left.circle").font(.title).foregroundColor(Color("toolsColor"))
+                                } else {
+                                    Image(systemName: "dot.arrowtriangles.up.right.down.left.circle").foregroundColor(.gray).font(.title)
                                 }
                                 }
                             }
