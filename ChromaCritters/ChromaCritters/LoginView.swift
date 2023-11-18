@@ -16,12 +16,17 @@ struct LoginView: View {
     @EnvironmentObject var userAuth: UserAuth
     @StateObject private var authView = AuthView()
     @State private var showingRegistration = false
-    @State private var showingEmailSignIn = false // State to control email sign-in view presentation
+    @State private var showingEmailSignIn = false 
     
     let signInWithAppleManager = SignInWithAppleManager()
     
     var body: some View {
         VStack(spacing: 20) {
+            Image("logo copy")
+                .resizable()
+                .frame(width:100, height:100)
+                .padding(.top, -100)
+                
             SignInWithAppleButton(.signIn, onRequest: { request in
                 signInWithAppleManager.setupRequest(request)
             }, onCompletion: handleSignInWithApple)
@@ -32,15 +37,19 @@ struct LoginView: View {
                 showingEmailSignIn = true
             }
             .frame(width: 280, height: 45)
+            .background(Color.black)
+            .foregroundColor(.white)
             .cornerRadius(10)
             .sheet(isPresented: $showingEmailSignIn) {
-                EmailSignInView() // This would be your custom view for email sign-in
+                EmailSignInView() 
             }
             
             Button("Sign Up") {
                 showingRegistration = true
             }
             .frame(width: 280, height: 45)
+            .background(Color.black)
+            .foregroundColor(.white)
             .cornerRadius(10)
             .sheet(isPresented: $showingRegistration) {
                 RegistrationView()
@@ -50,8 +59,17 @@ struct LoginView: View {
                 userAuth.isGuest = true
             }
             .frame(width: 280, height: 45)
+            .background(Color.black)
+            .foregroundColor(.white)
             .cornerRadius(10)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(LinearGradient(gradient: Gradient(colors: [Color(red: 254/255, green: 247/255, blue: 158/255),
+                                                               Color(red:169/255, green: 255/255, blue: 158/255),
+                                                               Color(red: 158/255, green: 249/255, blue: 252/255),
+                                                               Color(red: 159/255, green: 158/255, blue: 254/255),
+                                                               Color(red: 255/255, green: 155/255, blue: 233/255),
+                                                               Color(red: 254/255, green: 195/255, blue: 155/255)]), startPoint: .topLeading, endPoint: .bottomTrailing))
     }
     private func handleSignInWithApple(result: Result<ASAuthorization, Error>) {
         switch result {
@@ -99,4 +117,7 @@ class SignInWithAppleManager {
 
         return result
     }
+}
+#Preview {
+    LoginView()
 }

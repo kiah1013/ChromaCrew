@@ -49,7 +49,6 @@ struct RegistrationView: View {
                 
                 Section {
                     Button("Register") {
-                        // Here we pass the state variables instead of hardcoded strings
                         registerNewUser(email: email, password: password, fullname: fullname, username: username)
                     }
                 }
@@ -61,12 +60,11 @@ struct RegistrationView: View {
         }
     }
     
-    // Inside RegistrationView.swift
     private func registerNewUser(email: String, password: String, fullname: String, username: String) {
         authView.registerUser(withEmail: email, password: password, fullname: fullname, username: username) { result in
             DispatchQueue.main.async {
                 switch result {
-                case .success(let uid): // uid is the user ID from the successful registration
+                case .success(let uid):
                     print("User registration successful")
                     userAuth.userId = uid // Set the user ID
                     userAuth.isLogged = true
@@ -74,7 +72,6 @@ struct RegistrationView: View {
                     let newUser = User(id: uid, email: email, fullname: fullname, username: username)
                     addUserToFirestore(user: newUser)
 
-                    // Navigate away from the registration screen or update the UI as needed
                 case .failure(let error):
                     print("Error registering user: \(error.localizedDescription)")
                     alertMessage = error.localizedDescription
