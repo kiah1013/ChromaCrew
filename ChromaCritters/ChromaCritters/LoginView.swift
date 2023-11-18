@@ -17,6 +17,8 @@ struct LoginView: View {
     @StateObject private var authView = AuthView()
     @State private var showingRegistration = false
     @State private var showingEmailSignIn = false 
+    @Environment(\.colorScheme) var colorScheme
+
     
     let signInWithAppleManager = SignInWithAppleManager()
     
@@ -64,12 +66,24 @@ struct LoginView: View {
             .cornerRadius(10)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(LinearGradient(gradient: Gradient(colors: [Color(red: 254/255, green: 247/255, blue: 158/255),
-                                                               Color(red:169/255, green: 255/255, blue: 158/255),
-                                                               Color(red: 158/255, green: 249/255, blue: 252/255),
-                                                               Color(red: 159/255, green: 158/255, blue: 254/255),
-                                                               Color(red: 255/255, green: 155/255, blue: 233/255),
-                                                               Color(red: 254/255, green: 195/255, blue: 155/255)]), startPoint: .topLeading, endPoint: .bottomTrailing))
+        .background(colorScheme == .light
+                    ?    LinearGradient(gradient: Gradient(colors:
+                                                            [Color(red: 254/255, green: 247/255, blue: 158/255),
+                                                             Color(red:169/255, green: 255/255, blue: 158/255),
+                                                             Color(red: 158/255, green: 249/255, blue: 252/255),
+                                                             Color(red: 159/255, green: 158/255, blue: 254/255),
+                                                             Color(red: 255/255, green: 155/255, blue: 233/255),
+                                                             Color(red: 254/255, green: 195/255, blue: 155/255)]),
+                                        startPoint: .topLeading, endPoint: .bottomTrailing)
+                    
+                    : LinearGradient(gradient: Gradient(colors:
+                                                            [Color(red: 0, green: 0, blue: 0.2),
+                                                             Color(red: 0.7, green: 0.25, blue: 0.9),
+                                                             Color(red: 0.5, green: 0.35, blue: 0.9),
+                                                             Color(red: 0.07, green: 0.2, blue: 0.3),
+                                                             Color(red: 0, green: 0, blue: 0.2)]),
+                                     startPoint: .topLeading, endPoint: .bottomTrailing)
+        )
     }
     private func handleSignInWithApple(result: Result<ASAuthorization, Error>) {
         switch result {
