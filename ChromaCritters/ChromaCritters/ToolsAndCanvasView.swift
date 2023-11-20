@@ -30,7 +30,7 @@ struct ToolsAndCanvasView: View {
         //@State var lines: [Line] = []
         @Environment(\.scenePhase) var scenePhase
         var animal: String
-        @StateObject var savingDocument = SavingDocument(animalPictureName: "dog1")
+        @StateObject var savingDocument = SavingDocument(animalPictureName: "dog1", userId: "0")
         @State private var deletedLines = [Line]()
         @State private var selectedColor = Color.orange
         @State private var selectedLineWidth: CGFloat = 7
@@ -231,7 +231,7 @@ struct ToolsAndCanvasView: View {
                                 if isPanning == true {
                                     Image(systemName: "dot.arrowtriangles.up.right.down.left.circle").font(.title)
                                 } else {
-                                    Image(systemName: "dot.arrowtriangles.up.right.down.left.circle").foregroundColor(.gray).font(.title)
+                                    Image(systemName: "dot.arrowtriangles.up.right.down.left.circle").foregroundColor(Color("toolsColor")).font(.title)
                                 }
                                 }
                             }

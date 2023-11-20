@@ -16,8 +16,9 @@ class SavingDocument: ObservableObject {
     }
     
     //load the lines/data automatically
-    init(animalPictureName: String) {
+    init(animalPictureName: String, userId: String) {
         self.animalPictureName = animalPictureName
+        self.userId = userId
         
         if FileManager.default.fileExists(atPath: url.path),
            let data = try? Data(contentsOf: url) {
@@ -45,13 +46,14 @@ class SavingDocument: ObservableObject {
         }
     }
     
+    var userId: String
     var animalPictureName: String
     var url: URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         let documentsDirectory = paths[0]
         
         // final url
-        return documentsDirectory.appendingPathComponent(animalPictureName).appendingPathExtension("json")
+        return documentsDirectory.appendingPathComponent(animalPictureName + userId).appendingPathExtension("json")
         
     }
 }
