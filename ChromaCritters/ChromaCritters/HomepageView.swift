@@ -61,27 +61,7 @@ struct HomepageView: View {
                 
                 Divider()
                 ScrollView {
-                    NavigationStack {
-                        Text("Daily recommended image:")
-                            .font(.headline)
-                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                        
-                        Image("dog")
-                            .resizable()
-                            .scaledToFit()
-                            .border(Color("borderColor"), width: 2)
-                            .clipped() // Keeps pictures within the border
-                            .cornerRadius(15)
-                            .padding()
-                            .onTapGesture {
-                                dailySelected = "dog1" // Updated here
-                                
-                            }
-                        NavigationLink("", destination: ColoringPageView(selectedPicture: $dailySelected), isActive: Binding(
-                            get: { dailySelected != "" },
-                            set: { if !$0 { dailySelected = "" } }
-                        ))
-                    }
+                    DailyImageView()
                     ScrollView {
                         
                         Spacer()
