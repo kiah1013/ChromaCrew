@@ -21,6 +21,10 @@ struct User {
     let username: String
 }
 
+struct UserName: Codable {
+    let username: String
+}
+
 struct RegistrationView: View {
     @StateObject private var authView = AuthView()
     @EnvironmentObject var userAuth: UserAuth
@@ -97,5 +101,7 @@ struct RegistrationView: View {
                 print("User added to Firestore successfully")
             }
         }
+        
     }
+
 }
