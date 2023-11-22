@@ -21,6 +21,7 @@ struct UserProfileView: View {
     @State private var showingSignOutError = false
     @State private var signOutError: Error?
     @EnvironmentObject var userAuth: UserAuth
+    @State private var displayThisPic = UIImage()
     
     // Flatmap flattens an array of arrays into a single array, $0 means no transformations
     var picturesArray = AnimalImages.animalDictionary.values.flatMap { $0 }
@@ -105,13 +106,23 @@ struct UserProfileView: View {
                                     .clipped() // Keeps pictures within the border
                                     .cornerRadius(15)
                                     .padding()
+                                    .onTapGesture {
+                                        displayThisPic = image
+                                    }
                             }
+                            
+                            // Switches to DisplayFinishedView when picture is tapped
+                            NavigationLink("", destination: DisplayFinishedView(displayThisPic: $displayThisPic), isActive: Binding(
+                                get: { displayThisPic != UIImage() },
+                                set: { if !$0 { displayThisPic = UIImage() } }
+                            ))
                         }
                     }
                 }
-                .onAppear {
+                .onFirstAppear {
                     retrievePhotos()
                 }
+                
             }
         }
     }
@@ -212,7 +223,29 @@ struct UserProfile_Previews: PreviewProvider {
         UserProfileView().environmentObject(UserAuth())
     }
 }
+public struct OnFirstAppearModifier: ViewModifier {
 
+    private let onFirstAppearAction: () -> ()
+    @State private var hasAppeared = false
+    
+    public init(_ onFirstAppearAction: @escaping () -> ()) {
+        self.onFirstAppearAction = onFirstAppearAction
+    }
+    
+    public func body(content: Content) -> some View {
+        content
+            .onAppear {
+                guard !hasAppeared else { return }
+                hasAppeared = true
+                onFirstAppearAction()
+            }
+    }
+}
+extension View {
+    func onFirstAppear(_ onFirstAppearAction: @escaping () -> () ) -> some View {
+        return modifier(OnFirstAppearModifier(onFirstAppearAction))
+    }
+}
 #Preview {
     UserProfileView()
 }
