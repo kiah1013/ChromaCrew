@@ -39,6 +39,7 @@ struct HomepageView: View {
                         .padding()
                     Spacer()
                     NavigationLink(destination: UserProfileView()){
+                        
                         Image(systemName: "person.crop.circle")
                             .font(.title)
                             .foregroundColor(Color("titleColor"))

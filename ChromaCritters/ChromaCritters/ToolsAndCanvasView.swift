@@ -206,7 +206,9 @@ struct ToolsAndCanvasView: View {
                                     uploadColoredPageToFirestore()
                                     showAlert = true
                                 } label: {
-                                    Text("Upload").foregroundColor(Color("titleColor"))
+                                    if userAuth.isLogged {
+                                        Text("Upload").foregroundColor(Color("titleColor"))
+                                    }
                                 }.alert(isPresented: $showAlert) {
                                     Alert (
                                         title: Text("Upload Successful"),

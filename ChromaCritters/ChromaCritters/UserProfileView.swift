@@ -12,7 +12,7 @@ import FirebaseAuth
 
 struct UserProfileView: View {
     //modify the gridContent when adding pictures to this page
-  //  @State private var IsGridEmpty = false
+    @State private var IsGridEmpty = true
     @Environment(\.dismiss) var dismiss
     @State private var selectedPicture = ""
     @Environment(\.colorScheme) var colorScheme
@@ -21,7 +21,6 @@ struct UserProfileView: View {
     @State private var showingSignOutError = false
     @State private var signOutError: Error?
     @EnvironmentObject var userAuth: UserAuth
-    @State var username: String = ""
     
     // Flatmap flattens an array of arrays into a single array, $0 means no transformations
     var picturesArray = AnimalImages.animalDictionary.values.flatMap { $0 }
@@ -32,18 +31,16 @@ struct UserProfileView: View {
         NavigationStack {
             VStack(spacing: 0) {
                 HStack {
-//                    if let user = userAuth.currentUser {
-//                        Text("\(user.username)")
-//                    }
-                    Text("\(displayName())")
-                        Text("Profile")
-                            .foregroundColor(Color("titleColor"))
-                            .padding(.top)
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                            .padding()
+                    Text("\(displayName()) Profile")
+                        .foregroundColor(Color("titleColor"))
+                        .padding(.top)
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .padding()
+                    
                     Spacer()
-                    Toggle("", isOn: $isDarkMode)
+
+                    Toggle("", isOn: $isDarkMode).toggleStyle(ImageToggleStyle())
                     
                     Spacer()
                     Button(action: {
@@ -73,6 +70,7 @@ struct UserProfileView: View {
                                                                      Color(red: 0, green: 0, blue: 0.2)]),
                                              startPoint: .topLeading, endPoint: .bottomTrailing)
                 )
+                
                 Button("Sign Out") {
                     signOut()
                 }
@@ -90,14 +88,14 @@ struct UserProfileView: View {
                 Divider()
                 ScrollView {
                     Spacer()
-//                    if IsGridEmpty == true {
-//                        VStack {
-//                            Text("Your works in progress will appear here.")
-//                                .foregroundColor(.gray)
-//                                .padding(.top, 300)
-//                        }
-//                    }
-//                    else{
+                    if IsGridEmpty == true {
+                        VStack {
+                            Text("Your works in progress will appear here.")
+                                .foregroundColor(.gray)
+                                .padding(.top, 300)
+                        }
+                    }
+                    else{
                         LazyVGrid(columns: columnLayout) {
                             ForEach(retrievedImages, id: \.self) { image in
                                 Image(uiImage: image)
@@ -110,7 +108,7 @@ struct UserProfileView: View {
                             }
                         }
                     }
-            //    }
+                }
                 .onAppear {
                     retrievePhotos()
                 }
@@ -124,6 +122,7 @@ struct UserProfileView: View {
             print("User ID is nil.")
             return
         }
+        IsGridEmpty = false
         
         db.collection("coloredPagesDB").whereField("url", isGreaterThanOrEqualTo: "usersStorage/\(userId)/")
             .whereField("url", isLessThan: "usersStorage/\(userId)/z")
@@ -159,42 +158,54 @@ struct UserProfileView: View {
                 self.userAuth.isLogged = false
                 self.userAuth.isGuest = false
                 self.userAuth.userId = nil
+                self.userAuth.username = ""
         //        self.userAuth.currentUser = nil
             }
         } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
         }
     }
-//    func fetchUser() {
-//      //  var username: String = ""
-//        
-//        if userAuth.isLogged {
-//            let userUID = userAuth.userId
-//            Firestore.firestore().collection("users").document(userUID!).getDocument { snapshot, error in
-//                if error != nil {
-//                    // ERROR
-//                    print("Error getting username")
-//                }
-//                else {
-//                    self.username = snapshot!.get("username") as! String
-//                    //print(name ?? "")
-//                }
-//                
-//            }
-//        } else {
-//            print("User not logged in, cannot fetch user's name")
-//        }
-//    }
-    
+
     func displayName() -> String {
         userAuth.fetchUser()
         let username = userAuth.username
+        if userAuth.isLogged {
+            return username + "'s"
+        }
         
-        return username
+        return ""
     }
 }
 
+struct ImageToggleStyle: ToggleStyle {
     
+    func makeBody(configuration: Configuration) -> some View {
+            HStack {
+                configuration.label
+                Spacer()
+                Rectangle()
+                    .foregroundColor(configuration.isOn ? Color("darkmodeColor") : .gray)
+                    .frame(width: 51, height: 31, alignment: .center)
+                    .overlay(
+                        Circle()
+                            .foregroundColor(Color("customBackground"))
+                            .padding(.all, 3)
+                            .overlay(
+                                Image(systemName: configuration.isOn ? "moon.fill" : "sun.max.fill")
+                                    .resizable()
+                                    .font(.title)
+                                    .font(Font.title.weight(.black))
+                                    .frame(width: 8, height: 8, alignment: .center)
+                                    .foregroundColor(configuration.isOn ? Color("darkmodeColor") : .black)
+                            )
+                            .offset(x: configuration.isOn ? 11 : -11, y: 0)
+                            .animation(Animation.linear(duration: 0.1))
+                            
+                    ).cornerRadius(20)
+                    .onTapGesture { configuration.isOn.toggle() }
+            }
+        }
+}
 
 struct UserProfile_Previews: PreviewProvider {
     static var previews: some View {

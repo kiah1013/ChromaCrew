@@ -16,18 +16,9 @@ class UserAuth: ObservableObject {
     @Published var isLogged: Bool = false
     @Published var userId: String? = nil
     @Published var isGuest: Bool = false
-//  @Published var currentUser: UserName?
     @Published var username: String = ""
-    
 
-    
-//    func fetchUser() async {
-//        guard let uid = Auth.auth().currentUser?.uid else {return}
-//        guard let snapshot = try? await Firestore.firestore().collection("users").document(uid).getDocument() else {return}
-//        self.currentUser = try? snapshot.data(as: UserName.self)
-//    }
     func fetchUser() {
-        
         if isLogged {
             let userUID = Auth.auth().currentUser?.uid
             Firestore.firestore().collection("users").document(userUID!).getDocument { snapshot, error in
@@ -39,7 +30,7 @@ class UserAuth: ObservableObject {
                     let data = snapshot.data()
                     if let data = data {
                         //self.username = snapshot!.get("username") as! String
-                        print(data)
+                        //print(data)
                         self.username = data["username"] as? String ?? ""
                     }
                 }
