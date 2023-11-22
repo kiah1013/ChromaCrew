@@ -12,7 +12,7 @@ import FirebaseAuth
 
 struct UserProfileView: View {
     //modify the gridContent when adding pictures to this page
-    @State private var IsGridEmpty = false
+    @State private var IsGridEmpty = true
     @Environment(\.dismiss) var dismiss
     @State private var selectedPicture = ""
     @Environment(\.colorScheme) var colorScheme
@@ -38,8 +38,10 @@ struct UserProfileView: View {
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .padding()
+                    
                     Spacer()
-                    Toggle("", isOn: $isDarkMode)
+
+                    Toggle("", isOn: $isDarkMode).toggleStyle(ImageToggleStyle())
                     
                     Spacer()
                     Button(action: {
@@ -69,6 +71,19 @@ struct UserProfileView: View {
                                                                      Color(red: 0, green: 0, blue: 0.2)]),
                                              startPoint: .topLeading, endPoint: .bottomTrailing)
                 )
+                Divider().frame(minHeight: 5).background(Color("titleColor"))
+                HStack {
+                    Spacer()
+                    Text("Welcome, \(displayName())")
+                        .foregroundColor(Color("titleColor"))
+                        .padding(.top)
+                        .font(.title)
+                        .fontWeight(.semibold)
+                        .offset(y: -7)
+                    Spacer()
+                }.background(Color("customBackground")
+                 )
+                Divider().frame(minHeight: 5).background(Color("titleColor"))
                 Button("Sign Out") {
                     signOut()
                 }
@@ -130,6 +145,7 @@ struct UserProfileView: View {
             print("User ID is nil.")
             return
         }
+        IsGridEmpty = false
         
         db.collection("coloredPagesDB").whereField("url", isGreaterThanOrEqualTo: "usersStorage/\(userId)/")
             .whereField("url", isLessThan: "usersStorage/\(userId)/z")
@@ -165,14 +181,54 @@ struct UserProfileView: View {
                 self.userAuth.isLogged = false
                 self.userAuth.isGuest = false
                 self.userAuth.userId = nil
+                self.userAuth.username = ""
+        //        self.userAuth.currentUser = nil
             }
         } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
         }
     }
+
+    func displayName() -> String {
+        userAuth.fetchUser()
+        let username = userAuth.username
+        if userAuth.isLogged {
+            return username
+        }
+        
+        return "Guest"
+    }
 }
 
+struct ImageToggleStyle: ToggleStyle {
     
+    func makeBody(configuration: Configuration) -> some View {
+            HStack {
+                configuration.label
+                Spacer()
+                Rectangle()
+                    .foregroundColor(configuration.isOn ? Color("darkmodeColor") : .gray)
+                    .frame(width: 51, height: 31, alignment: .center)
+                    .overlay(
+                        Circle()
+                            .foregroundColor(Color("customBackground"))
+                            .padding(.all, 3)
+                            .overlay(
+                                Image(systemName: configuration.isOn ? "moon.fill" : "sun.max.fill")
+                                    .resizable()
+                                    .font(.title)
+                                    .font(Font.title.weight(.black))
+                                    .frame(width: 8, height: 8, alignment: .center)
+                                    .foregroundColor(configuration.isOn ? Color("darkmodeColor") : .black)
+                            )
+                            .offset(x: configuration.isOn ? 11 : -11, y: 0)
+                            .animation(Animation.linear(duration: 0.1))
+                            
+                    ).cornerRadius(20)
+                    .onTapGesture { configuration.isOn.toggle() }
+            }
+        }
+}
 
 struct UserProfile_Previews: PreviewProvider {
     static var previews: some View {

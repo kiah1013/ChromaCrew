@@ -7,6 +7,12 @@
 //
 
 import SwiftUI
+import Foundation
+import AuthenticationServices
+import Firebase
+import FirebaseCore
+import FirebaseFirestore
+import FirebaseAuth
 
 struct HomepageView: View {
     @State private var searchedAnimal = ""
@@ -14,7 +20,7 @@ struct HomepageView: View {
     @State private var dailySelected = ""
     @State private var selectedAnimalFilters: [String] = []
     @Environment(\.colorScheme) var colorScheme
-
+    
     
     // Flatmap flattens an array of arrays into a single array, $0 means no transformations
     var picturesArray = AnimalImages.nonTransparentAnimalDictionary.values.flatMap { $0 }
@@ -33,6 +39,7 @@ struct HomepageView: View {
                         .padding()
                     Spacer()
                     NavigationLink(destination: UserProfileView()){
+                        
                         Image(systemName: "person.crop.circle")
                             .font(.title)
                             .foregroundColor(Color("titleColor"))
@@ -109,6 +116,7 @@ struct HomepageView: View {
             }
         }
     }
+    
 }
 
 struct HomepageView_Previews: PreviewProvider {

@@ -19,9 +19,14 @@ struct DailyImageView: View {
     //let colLayout = Array(repeating: GridItem(), count: 1)
     var body: some View {
         NavigationStack {
-            Text("Daily recommended image:")
-                .font(.headline)
-                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+            ZStack {
+             //   Rectangle().foregroundColor(Color(red: 200/255, green: 200/255, blue: 254/255)).frame(height:40)
+                Text("Daily recommended image:")
+                    .font(.headline)
+                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+              //      .foregroundColor(Color(red: 0.3, green: 0.23, blue: 1))
+                
+            }
             
             let i = getImageName()
             let picture = testImage()
