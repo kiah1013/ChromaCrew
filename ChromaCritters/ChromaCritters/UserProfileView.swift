@@ -32,7 +32,7 @@ struct UserProfileView: View {
         NavigationStack {
             VStack(spacing: 0) {
                 HStack {
-                    Text("\(displayName()) Profile")
+                    Text("Profile")
                         .foregroundColor(Color("titleColor"))
                         .padding(.top)
                         .font(.largeTitle)
@@ -71,7 +71,19 @@ struct UserProfileView: View {
                                                                      Color(red: 0, green: 0, blue: 0.2)]),
                                              startPoint: .topLeading, endPoint: .bottomTrailing)
                 )
-                
+                Divider().frame(minHeight: 5).background(Color("titleColor"))
+                HStack {
+                    Spacer()
+                    Text("Welcome, \(displayName())")
+                        .foregroundColor(Color("titleColor"))
+                        .padding(.top)
+                        .font(.title)
+                        .fontWeight(.semibold)
+                        .offset(y: -7)
+                    Spacer()
+                }.background(Color("customBackground")
+                 )
+                Divider().frame(minHeight: 5).background(Color("titleColor"))
                 Button("Sign Out") {
                     signOut()
                 }
@@ -181,10 +193,10 @@ struct UserProfileView: View {
         userAuth.fetchUser()
         let username = userAuth.username
         if userAuth.isLogged {
-            return username + "'s"
+            return username
         }
         
-        return ""
+        return "Guest"
     }
 }
 
