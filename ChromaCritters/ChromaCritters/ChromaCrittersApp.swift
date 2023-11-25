@@ -18,28 +18,6 @@ class UserAuth: ObservableObject {
     @Published var isGuest: Bool = false
     @Published var username: String = ""
 
-    func fetchUser() {
-        if isLogged {
-            let userUID = Auth.auth().currentUser?.uid
-            Firestore.firestore().collection("users").document(userUID!).getDocument { snapshot, error in
-                if error != nil {
-                    // ERROR
-                    print("Error getting username")
-                }
-                if let snapshot = snapshot, snapshot.exists {
-                    let data = snapshot.data()
-                    if let data = data {
-                        //self.username = snapshot!.get("username") as! String
-                        //print(data)
-                        self.username = data["username"] as? String ?? ""
-                    }
-                }
-                
-            }
-        } else {
-            print("User not logged in, cannot fetch user's name")
-        }
-    }
 }
 
 @main
