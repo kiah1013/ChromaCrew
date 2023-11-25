@@ -69,6 +69,7 @@ struct HomepageView: View {
                 Divider()
                 ScrollView {
                     DailyImageView()
+                    Divider().frame(minHeight: 4).background(Color("DividerColor"))
                     ScrollView {
                         
                         Spacer()

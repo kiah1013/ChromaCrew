@@ -71,34 +71,7 @@ struct UserProfileView: View {
                                                                      Color(red: 0, green: 0, blue: 0.2)]),
                                              startPoint: .topLeading, endPoint: .bottomTrailing)
                 )
-                Divider().frame(minHeight: 5).background(Color("titleColor"))
-                HStack {
-                    Spacer()
-                    Text("Welcome, \(displayName())")
-                        .foregroundColor(Color("titleColor"))
-                        .padding(.top)
-                        .font(.title)
-                        .fontWeight(.semibold)
-                        .offset(y: -7)
-                    Spacer()
-                }.background(Color("customBackground")
-                 )
-                Divider().frame(minHeight: 5).background(Color("titleColor"))
-                Button("Sign Out") {
-                    signOut()
-                }
-                .font(.headline)
-                .foregroundColor(.red)
-                .padding()
-                .alert("Sign Out Error", isPresented: $showingSignOutError) {
-                    Button("OK", role: .cancel) { }
-                } message: {
-                    Text(signOutError?.localizedDescription ?? "Unknown error")
-                }
-                .navigationBarBackButtonHidden(true)
                 
-                
-                Divider()
                 ScrollView {
                     Spacer()
                     if IsGridEmpty == true {
@@ -134,6 +107,21 @@ struct UserProfileView: View {
                 .onFirstAppear {
                     retrievePhotos()
                 }
+                
+                Divider().frame(minHeight: 1).background(Color("titleColor"))
+                Button("Sign Out") {
+                    signOut()
+                }
+                .font(.headline)
+                .foregroundColor(.red)
+                .padding()
+                .alert("Sign Out Error", isPresented: $showingSignOutError) {
+                    Button("OK", role: .cancel) { }
+                } message: {
+                    Text(signOutError?.localizedDescription ?? "Unknown error")
+                }
+                .navigationBarBackButtonHidden(true)
+                
                 
             }
         }
@@ -189,15 +177,6 @@ struct UserProfileView: View {
         }
     }
 
-    func displayName() -> String {
-        userAuth.fetchUser()
-        let username = userAuth.username
-        if userAuth.isLogged {
-            return username
-        }
-        
-        return "Guest"
-    }
 }
 
 struct ImageToggleStyle: ToggleStyle {
