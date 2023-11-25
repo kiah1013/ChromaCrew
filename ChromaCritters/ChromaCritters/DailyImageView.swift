@@ -22,7 +22,7 @@ struct DailyImageView: View {
         NavigationStack {
             Divider().frame(minHeight: 4).background(Color("DividerColor"))
 
-            Text("\(displayName()) Daily Recommended Image:")
+            Text("Daily Recommended Image:")
                     .font(.headline)
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     .padding(2)
@@ -79,16 +79,8 @@ struct DailyImageView: View {
         }
         return(pic)
     }
-    func displayName() -> String {
-        userAuth.fetchUser()
-        let username = userAuth.username
-        if userAuth.isLogged {
-            return username + "'s"
-        }
-        
-        return "Guest's"
-    }
-    }
+   
+}
 
 
 #Preview {
