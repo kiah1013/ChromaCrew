@@ -12,6 +12,7 @@ struct DailyImageView: View {
     @State private var selectedPicture = ""
     @State private var dailySelected = ""
     @State var picture = ""
+    @EnvironmentObject var userAuth: UserAuth
      //var picture = ""
 
     //var picturesArray = AnimalImages.animalDictionary.values.flatMap { $0 }
@@ -19,14 +20,14 @@ struct DailyImageView: View {
     //let colLayout = Array(repeating: GridItem(), count: 1)
     var body: some View {
         NavigationStack {
-            ZStack {
-             //   Rectangle().foregroundColor(Color(red: 200/255, green: 200/255, blue: 254/255)).frame(height:40)
-                Text("Daily recommended image:")
+            Divider().frame(minHeight: 4).background(Color("DividerColor"))
+
+            Text("\(displayName()) Daily Recommended Image:")
                     .font(.headline)
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-              //      .foregroundColor(Color(red: 0.3, green: 0.23, blue: 1))
-                
-            }
+                    .padding(2)
+            
+            Divider().frame(minHeight: 4).background(Color("DividerColor"))
             
             let i = getImageName()
             let picture = testImage()
@@ -78,7 +79,15 @@ struct DailyImageView: View {
         }
         return(pic)
     }
-    
+    func displayName() -> String {
+        userAuth.fetchUser()
+        let username = userAuth.username
+        if userAuth.isLogged {
+            return username + "'s"
+        }
+        
+        return "Guest's"
+    }
     }
 
 
